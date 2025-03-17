@@ -5,14 +5,13 @@ project(TradingPlatform)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Define NOMINMAX to prevent Windows.h from defining min/max macros
-# Define _CRT_SECURE_NO_WARNINGS to disable warnings about strcpy, sprintf, etc.
+# Define NOMINMAX and _CRT_SECURE_NO_WARNINGS
 add_definitions(-DNOMINMAX -D_CRT_SECURE_NO_WARNINGS)
 
 # Include FetchContent for downloading dependencies
 include(FetchContent)
 
-# Download ImGui (using docking branch for advanced docking features)
+# Download ImGui (using docking branch)
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
@@ -38,22 +37,27 @@ target_include_directories(imgui PUBLIC
 
 # Project includes
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${imgui_SOURCE_DIR}
+    ${imgui_SOURCE_DIR}/backends
 )
 
-# Gather source files
-file(GLOB_RECURSE SOURCES 
-    "src/*.cpp"
+# Source files
+set(SOURCES
+    src/main.cpp
+    src/App.cpp
+    src/TradingUI.cpp
 )
 
-file(GLOB_RECURSE HEADERS 
-    "src/*.h"
+set(HEADERS
+    include/App.h
+    include/TradingUI.h
 )
 
 # Create executable
 add_executable(TradingPlatform WIN32 ${SOURCES} ${HEADERS})
 
-# Link against ImGui and required DirectX libraries
+# Link libraries
 target_link_libraries(TradingPlatform PRIVATE
     imgui
     d3d11.lib
@@ -64,18 +68,10 @@ target_link_libraries(TradingPlatform PRIVATE
     shell32.lib
 )
 
-# Visual Studio specific options
+# MSVC specific settings
 if(MSVC)
-    # Use multithreaded DLL runtime library
-    set_property(TARGET TradingPlatform PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
-    
-    # Add Windows subsystem but use main() as entry point
+    set_property(TARGET TradingPlatform PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     set_target_properties(TradingPlatform PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-    
-    # Enable folders in Visual Studio
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-    
-    # Source group for better organization in Visual Studio
     source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES} ${HEADERS})
 endif()

@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <memory>
 #include "App.h"
+#include "imgui_impl_win32.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

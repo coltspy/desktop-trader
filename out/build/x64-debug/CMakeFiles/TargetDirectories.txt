@@ -1,4 +1,4 @@
-C:/dev/vsrepos/test/out/build/x64-debug/CMakeFiles/imgui.dir
-C:/dev/vsrepos/test/out/build/x64-debug/CMakeFiles/TradingPlatform.dir
-C:/dev/vsrepos/test/out/build/x64-debug/CMakeFiles/edit_cache.dir
-C:/dev/vsrepos/test/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/imgui.dir
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/TradingPlatform.dir
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
