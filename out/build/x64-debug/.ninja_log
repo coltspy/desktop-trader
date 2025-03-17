@@ -1,0 +1,17 @@
+# ninja log v6
+23	416	7638749442294632	CMakeFiles/imgui.dir/_deps/imgui-src/imgui_demo.cpp.obj	70c6882420667e27
+29	381	7638749442354662	CMakeFiles/imgui.dir/_deps/imgui-src/imgui_tables.cpp.obj	45ddcfd0dc277249
+36	419	7638749442424640	CMakeFiles/imgui.dir/_deps/imgui-src/backends/imgui_impl_win32.cpp.obj	ecc90e1376f02740
+26	428	7638749442324656	CMakeFiles/imgui.dir/_deps/imgui-src/imgui_draw.cpp.obj	c360c522f94807bf
+20	822	7638749442264635	CMakeFiles/imgui.dir/_deps/imgui-src/imgui.cpp.obj	c3a42b963e64cdf7
+33	510	7638749442394640	CMakeFiles/imgui.dir/_deps/imgui-src/imgui_widgets.cpp.obj	494caf1cbef78584
+27	542	7638702224350031	CMakeFiles/ImGuiDemo.dir/main.cpp.obj	b98c585dc9057d7d
+40	656	7638749442464644	CMakeFiles/imgui.dir/_deps/imgui-src/backends/imgui_impl_dx11.cpp.obj	cd98d3cec3a117bd
+822	881	7638749450276513	imgui.lib	66390898db3a8f42
+13	231	7638705465827744	ImGuiDemo.exe	8835ed678e053573
+29	760	7638765844906477	CMakeFiles/TradingPlatform.dir/src/main.cpp.obj	84381836847fc31
+766	876	7638765852271740	TradingPlatform.exe	735456eceb393414
+25	765	7638765844856466	CMakeFiles/TradingPlatform.dir/src/App.cpp.obj	81b2d94556f37ecd
+27	596	7638778717416314	CMakeFiles/TradingPlatform.dir/src/App.cpp.obj	81b2d94556f37ecd
+32	690	7638778717476315	CMakeFiles/TradingPlatform.dir/src/main.cpp.obj	84381836847fc31
+690	864	7638778724056307	TradingPlatform.exe	735456eceb393414
