@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Define NOMINMAX to prevent Windows.h from defining min/max macros
-add_definitions(-DNOMINMAX)
+# Define _CRT_SECURE_NO_WARNINGS to disable warnings about strcpy, sprintf, etc.
+add_definitions(-DNOMINMAX -D_CRT_SECURE_NO_WARNINGS)
 
 # Include FetchContent for downloading dependencies
 include(FetchContent)

@@ -50,7 +50,7 @@ cmake_ninja_workdir = C$:\dev\vsrepos\test\out\build\x64-debug\
 build cmake_object_order_depends_target_imgui: phony || .
 
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\imgui.cpp || cmake_object_order_depends_target_imgui
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\test\src
   OBJECT_DIR = CMakeFiles\imgui.dir
@@ -59,7 +59,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui.cpp.obj: CXX_COMPILER__imgui_un
   TARGET_PDB = imgui.pdb
 
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_demo.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\imgui_demo.cpp || cmake_object_order_depends_target_imgui
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\test\src
   OBJECT_DIR = CMakeFiles\imgui.dir
@@ -68,7 +68,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_demo.cpp.obj: CXX_COMPILER__img
   TARGET_PDB = imgui.pdb
 
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_draw.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\imgui_draw.cpp || cmake_object_order_depends_target_imgui
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\test\src
   OBJECT_DIR = CMakeFiles\imgui.dir
@@ -77,7 +77,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_draw.cpp.obj: CXX_COMPILER__img
   TARGET_PDB = imgui.pdb
 
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_tables.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\imgui_tables.cpp || cmake_object_order_depends_target_imgui
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\test\src
   OBJECT_DIR = CMakeFiles\imgui.dir
@@ -86,7 +86,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_tables.cpp.obj: CXX_COMPILER__i
   TARGET_PDB = imgui.pdb
 
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_widgets.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\imgui_widgets.cpp || cmake_object_order_depends_target_imgui
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\test\src
   OBJECT_DIR = CMakeFiles\imgui.dir
@@ -95,7 +95,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_widgets.cpp.obj: CXX_COMPILER__
   TARGET_PDB = imgui.pdb
 
 build CMakeFiles\imgui.dir\_deps\imgui-src\backends\imgui_impl_win32.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends\imgui_impl_win32.cpp || cmake_object_order_depends_target_imgui
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\test\src
   OBJECT_DIR = CMakeFiles\imgui.dir
@@ -104,7 +104,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\backends\imgui_impl_win32.cpp.obj: CX
   TARGET_PDB = imgui.pdb
 
 build CMakeFiles\imgui.dir\_deps\imgui-src\backends\imgui_impl_dx11.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends\imgui_impl_dx11.cpp || cmake_object_order_depends_target_imgui
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\test\src
   OBJECT_DIR = CMakeFiles\imgui.dir
@@ -140,7 +140,7 @@ build imgui.lib: CXX_STATIC_LIBRARY_LINKER__imgui_Debug CMakeFiles\imgui.dir\_de
 build cmake_object_order_depends_target_TradingPlatform: phony || cmake_object_order_depends_target_imgui
 
 build CMakeFiles\TradingPlatform.dir\src\App.cpp.obj: CXX_COMPILER__TradingPlatform_unscanned_Debug C$:\dev\vsrepos\test\src\App.cpp || cmake_object_order_depends_target_TradingPlatform
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends
   OBJECT_DIR = CMakeFiles\TradingPlatform.dir
@@ -149,7 +149,7 @@ build CMakeFiles\TradingPlatform.dir\src\App.cpp.obj: CXX_COMPILER__TradingPlatf
   TARGET_PDB = TradingPlatform.pdb
 
 build CMakeFiles\TradingPlatform.dir\src\main.cpp.obj: CXX_COMPILER__TradingPlatform_unscanned_Debug C$:\dev\vsrepos\test\src\main.cpp || cmake_object_order_depends_target_TradingPlatform
-  DEFINES = -DNOMINMAX
+  DEFINES = -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\dev\vsrepos\test\src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\test\out\build\x64-debug\_deps\imgui-src\backends
   OBJECT_DIR = CMakeFiles\TradingPlatform.dir

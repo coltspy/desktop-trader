@@ -1,4 +1,3 @@
-#define NOMINMAX
 #include <Windows.h>
 #include <memory>
 #include "App.h"
