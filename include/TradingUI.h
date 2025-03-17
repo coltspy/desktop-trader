@@ -2,6 +2,7 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "ChartRenderer.h" // Add ChartRenderer include
 #include <string>
 
 class TradingUI {
@@ -17,15 +18,22 @@ private:
     void SetupImGuiStyle();
     void CreateDockingLayout();
 
+    // Font handling
+    void LoadFonts();
+
     // UI components
     void RenderMenuBar();
     void RenderChartWindow();
     void RenderPositionsWindow();
     void RenderTradingWindow();
 
+    // Helper function for updating amount from percentage buttons
+    void UpdateAmountFromPercentage(float percentage);
+
     // Menu state
     struct {
         bool showDemo = false;
+        bool showImPlotDemo = false; // Add ImPlot demo toggle
         bool darkTheme = true;
         bool showOrderBook = true;
         bool showDepthChart = false;
@@ -54,6 +62,15 @@ private:
         float priceChangeTime = 0.0f;
         float lastUpdateTime = 0.0f;
     } m_animationState;
+
+    // Font pointers
+    ImFont* m_defaultFont = nullptr;
+    ImFont* m_boldFont = nullptr;
+    ImFont* m_mediumFont = nullptr;
+    ImFont* m_smallFont = nullptr;
+
+    // Chart renderer
+    ChartRenderer m_chartRenderer;
 
     // DockSpace ID and state
     ImGuiID m_dockspaceId = 0;

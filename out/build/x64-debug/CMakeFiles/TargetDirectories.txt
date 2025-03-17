@@ -1,4 +1,8 @@
 C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/imgui.dir
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/implot.dir
 C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/TradingPlatform.dir
 C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/edit_cache.dir
 C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/list_install_components.dir
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/install.dir
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/install/local.dir

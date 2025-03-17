@@ -1,6 +1,13 @@
 #include "App.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
+#include "implot.h"
+
+// Global font pointers that can be accessed from TradingUI
+ImFont* g_defaultFont = nullptr;
+ImFont* g_boldFont = nullptr;
+ImFont* g_mediumFont = nullptr;
+ImFont* g_smallFont = nullptr;
 
 App::App() {
     m_ui = std::make_unique<TradingUI>();
@@ -23,8 +30,39 @@ bool App::Initialize(HWND hwnd) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-    io.ConfigWindowsMoveFromTitleBarOnly = true;              // Move windows only from title bar
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigWindowsMoveFromTitleBarOnly = true;
+
+    // LOAD FONTS ONLY HERE - CENTRALIZED FONT LOADING
+    g_defaultFont = io.Fonts->AddFontDefault();
+
+    // Try to load the custom font
+    ImFontConfig config;
+    config.OversampleH = 2;
+    config.OversampleV = 2;
+    config.PixelSnapH = true;
+
+    // Load font.ttf with different sizes for different use cases
+    g_boldFont = io.Fonts->AddFontFromFileTTF("fonts/font.ttf", 16.0f, &config);
+    if (g_boldFont == nullptr) {
+        OutputDebugStringA("Warning: Failed to load font.ttf for bold font\n");
+        g_boldFont = g_defaultFont;
+    }
+
+    g_mediumFont = io.Fonts->AddFontFromFileTTF("fonts/font.ttf", 14.0f, &config);
+    if (g_mediumFont == nullptr) {
+        OutputDebugStringA("Warning: Failed to load font.ttf for medium font\n");
+        g_mediumFont = g_defaultFont;
+    }
+
+    g_smallFont = io.Fonts->AddFontFromFileTTF("fonts/font.ttf", 12.0f, &config);
+    if (g_smallFont == nullptr) {
+        OutputDebugStringA("Warning: Failed to load font.ttf for small font\n");
+        g_smallFont = g_defaultFont;
+    }
+
+    // Setup ImPlot context
+    ImPlot::CreateContext();
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
@@ -44,6 +82,10 @@ void App::Shutdown() {
     // ImGui cleanup
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
+
+    // ImPlot cleanup
+    ImPlot::DestroyContext();
+
     ImGui::DestroyContext();
 
     // DirectX cleanup

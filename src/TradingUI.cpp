@@ -1,6 +1,14 @@
 #include "TradingUI.h"
+#include "implot.h" // Add ImPlot include
 #include <random>
 #include <string>
+#include <iomanip>
+#include <sstream>
+
+extern ImFont* g_defaultFont;
+extern ImFont* g_boldFont;
+extern ImFont* g_mediumFont;
+extern ImFont* g_smallFont;
 
 TradingUI::TradingUI() {
 }
@@ -8,6 +16,21 @@ TradingUI::TradingUI() {
 void TradingUI::Initialize() {
     // Setup ImGui style
     SetupImGuiStyle();
+
+    // Load custom fonts
+    LoadFonts();
+
+    // Initialize chart renderer
+    m_chartRenderer.Initialize();
+}
+
+void TradingUI::LoadFonts() {
+    // Fonts are loaded in App.cpp - just use the global font pointers
+    m_defaultFont = g_defaultFont;
+    m_boldFont = g_boldFont;
+    m_mediumFont = g_mediumFont;
+    m_smallFont = g_smallFont;
+
 }
 
 void TradingUI::Render() {
@@ -54,6 +77,16 @@ void TradingUI::Render() {
     RenderPositionsWindow();
     RenderTradingWindow();
 
+    // Show ImPlot demo window if enabled
+    if (m_menuState.showImPlotDemo) {
+        ImPlot::ShowDemoWindow(&m_menuState.showImPlotDemo);
+    }
+
+    // Show ImGui demo window if enabled
+    if (m_menuState.showDemo) {
+        ImGui::ShowDemoWindow(&m_menuState.showDemo);
+    }
+
     // End the root window
     ImGui::End();
 }
@@ -72,6 +105,14 @@ void TradingUI::SetupImGuiStyle() {
     style.Colors[ImGuiCol_Button] = ImVec4(0.20f, 0.20f, 0.25f, 1.00f);
     style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.30f, 0.30f, 0.35f, 1.00f);
     style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.35f, 0.35f, 0.40f, 1.00f);
+
+    // Trade panel specific colors
+    style.Colors[ImGuiCol_TabActive] = ImVec4(0.2f, 0.4f, 0.7f, 1.0f);
+    style.Colors[ImGuiCol_TabHovered] = ImVec4(0.3f, 0.5f, 0.8f, 1.0f);
+    style.Colors[ImGuiCol_Tab] = ImVec4(0.15f, 0.15f, 0.2f, 1.0f);
+
+    // Dark theme overrides for buy/sell UI
+    style.Colors[ImGuiCol_FrameBg] = ImVec4(0.16f, 0.16f, 0.16f, 1.00f);
 
     // Make window borders nearly invisible
     style.WindowBorderSize = 1.0f;
@@ -99,7 +140,7 @@ void TradingUI::CreateDockingLayout() {
     ImGuiID dock_main_id = m_dockspaceId;
 
     // Split right side for trading panel (40% width)
-    ImGuiID dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.4f, nullptr, &dock_main_id);
+    ImGuiID dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.3f, nullptr, &dock_main_id);
 
     // Split remaining area for chart on top (70% height) and positions below (30% height)
     ImGuiID dock_chart_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Up, 0.7f, nullptr, &dock_main_id);
@@ -180,6 +221,13 @@ void TradingUI::RenderMenuBar() {
             ImGui::EndMenu();
         }
 
+        // Demo Menu
+        if (ImGui::BeginMenu("Demo")) {
+            ImGui::MenuItem("ImGui Demo", nullptr, &m_menuState.showDemo);
+            ImGui::MenuItem("ImPlot Demo", nullptr, &m_menuState.showImPlotDemo);
+            ImGui::EndMenu();
+        }
+
         // Help Menu
         if (ImGui::BeginMenu("Help")) {
             if (ImGui::MenuItem("Documentation")) {}
@@ -195,11 +243,6 @@ void TradingUI::RenderMenuBar() {
 
         ImGui::EndMainMenuBar();
     }
-
-    // Show demo window if enabled (for development only)
-    if (m_menuState.showDemo) {
-        ImGui::ShowDemoWindow(&m_menuState.showDemo);
-    }
 }
 
 void TradingUI::RenderChartWindow() {
@@ -208,25 +251,18 @@ void TradingUI::RenderChartWindow() {
 
     ImGui::Begin("Chart", nullptr, flags);
 
-    // Set padding for better appearance
+    // Add some padding for better appearance
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(16.0f, 16.0f));
 
-    // Chart title
+    // Use bold font for the title
+    ImGui::PushFont(m_boldFont);
     ImGui::Text("ETH/USD Price Chart");
+    ImGui::PopFont();
 
-    // Placeholder for actual chart
-    ImVec2 chartSize = ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y - 40);
-    ImGui::GetWindowDrawList()->AddRect(
-        ImGui::GetCursorScreenPos(),
-        ImVec2(ImGui::GetCursorScreenPos().x + chartSize.x, ImGui::GetCursorScreenPos().y + chartSize.y),
-        ImGui::ColorConvertFloat4ToU32(ImVec4(0.5f, 0.5f, 0.5f, 0.5f))
-    );
+    ImGui::Spacing();
 
-    ImGui::GetWindowDrawList()->AddText(
-        ImVec2(ImGui::GetCursorScreenPos().x + chartSize.x / 2 - 100, ImGui::GetCursorScreenPos().y + chartSize.y / 2),
-        ImGui::ColorConvertFloat4ToU32(ImVec4(0.5f, 0.5f, 0.5f, 0.8f)),
-        "Chart visualization will be implemented here"
-    );
+    // Use the ChartRenderer to render charts (takes the full remaining space)
+    m_chartRenderer.RenderCharts();
 
     ImGui::PopStyleVar();
     ImGui::End();
@@ -242,8 +278,11 @@ void TradingUI::RenderPositionsWindow() {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(16.0f, 16.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(10.0f, 6.0f));
 
-    // Positions title
+    // Positions title with bold font
+    ImGui::PushFont(m_boldFont);
     ImGui::Text("Open Positions");
+    ImGui::PopFont();
+
     ImGui::Spacing();
     ImGui::Separator();
     ImGui::Spacing();
@@ -325,165 +364,285 @@ void TradingUI::RenderTradingWindow() {
 
     // Set custom styles for this window
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(16.0f, 16.0f));
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8.0f, 12.0f));
-    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(12.0f, 6.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8.0f, 10.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 8.0f));
 
-    // Draw a header with market name and current price
-    const float headerHeight = 60.0f;
-    ImVec2 windowPos = ImGui::GetWindowPos();
-    ImVec2 windowSize = ImGui::GetWindowSize();
+    // Dark theme colors
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.08f, 0.08f, 0.08f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.16f, 0.16f, 0.16f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.20f, 0.20f, 0.20f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.28f, 0.28f, 0.28f, 1.00f));
 
-    // Header background
-    ImVec2 headerMin = windowPos;
-    ImVec2 headerMax = ImVec2(windowPos.x + windowSize.x, windowPos.y + headerHeight);
-    ImGui::GetWindowDrawList()->AddRectFilled(headerMin, headerMax,
-        ImGui::ColorConvertFloat4ToU32(ImVec4(0.12f, 0.14f, 0.17f, 1.0f)), 0.0f);
+    // Buy/Sell tabs as full-width buttons
+    ImVec2 windowSize = ImGui::GetContentRegionAvail();
+    float halfWidth = (windowSize.x - 16.0f) / 2.0f;
 
-    // Market info
-    ImGui::SetCursorPosY(10.0f);
-    ImGui::SetCursorPosX(16.0f);
-    ImGui::PushFont(ImGui::GetIO().Fonts->Fonts[0]); // Use default font for now
-    ImGui::Text("ETH/USD");
+    // Use bold font for buy/sell tabs
+    ImGui::PushFont(m_boldFont);
 
-    // Update price animation
-    float currentTime = ImGui::GetTime();
-    if (currentTime > m_animationState.priceChangeTime) {
-        m_animationState.priceChangeTime = currentTime + 2.0f + (rand() % 3);
-        m_animationState.targetPrice = 1840.0f + (rand() % 2000) / 100.0f;
-    }
-
-    // Smooth animation of price
-    m_animationState.displayedPrice = m_animationState.displayedPrice * 0.9f + m_animationState.targetPrice * 0.1f;
-
-    // Display price with color based on price movement
-    ImGui::SameLine(ImGui::GetWindowWidth() - 120.0f);
-    ImVec4 priceColor = (m_animationState.targetPrice > m_animationState.displayedPrice) ?
-        ImVec4(0.0f, 0.8f, 0.4f, 1.0f) : ImVec4(0.9f, 0.3f, 0.3f, 1.0f);
-    ImGui::PushStyleColor(ImGuiCol_Text, priceColor);
-    ImGui::Text("$%.2f", m_animationState.displayedPrice);
-    ImGui::PopStyleColor();
-    ImGui::PopFont();
-
-    ImGui::SetCursorPosY(headerHeight + 20.0f);
-
-    // Buy/Sell tabs with improved styling
-    const float tabHeight = 50.0f;
-    ImVec2 buyTabMin = ImVec2(windowPos.x + 16.0f, windowPos.y + headerHeight + 20.0f);
-    ImVec2 buyTabMax = ImVec2(windowPos.x + windowSize.x / 2.0f - 4.0f, buyTabMin.y + tabHeight);
-    ImVec2 sellTabMin = ImVec2(windowPos.x + windowSize.x / 2.0f + 4.0f, buyTabMin.y);
-    ImVec2 sellTabMax = ImVec2(windowPos.x + windowSize.x - 16.0f, buyTabMin.y + tabHeight);
-
-    // Buy tab
-    ImGui::SetCursorPos(ImVec2(16.0f, headerHeight + 20.0f));
-    ImGui::BeginGroup();
-
-    ImVec4 buyTabColor = m_tradingState.buySelected ?
-        ImVec4(0.0f, 0.7f, 0.4f, 1.0f) : ImVec4(0.2f, 0.2f, 0.25f, 0.7f);
-    ImGui::GetWindowDrawList()->AddRectFilled(buyTabMin, buyTabMax,
-        ImGui::ColorConvertFloat4ToU32(buyTabColor), 8.0f);
-
-    if (ImGui::InvisibleButton("BuyTab", ImVec2((windowSize.x / 2.0f) - 20.0f, tabHeight))) {
+    ImGui::PushStyleColor(ImGuiCol_Button, m_tradingState.buySelected ? ImVec4(0.15f, 0.15f, 0.15f, 1.0f) : ImVec4(0.15f, 0.15f, 0.15f, 0.5f));
+    if (ImGui::Button("Buy", ImVec2(halfWidth, 36))) {
         m_tradingState.buySelected = true;
     }
 
-    // Center the text in the tab
-    float textWidth = ImGui::CalcTextSize("BUY").x;
-    ImGui::SetCursorPos(ImVec2(windowSize.x / 4.0f - textWidth / 2.0f, headerHeight + 35.0f));
-    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-    ImGui::Text("BUY");
-    ImGui::PopStyleColor();
-    ImGui::EndGroup();
+    ImGui::SameLine();
 
-    // Sell tab
-    ImGui::SetCursorPos(ImVec2(windowSize.x / 2.0f + 4.0f, headerHeight + 20.0f));
-    ImGui::BeginGroup();
-
-    ImVec4 sellTabColor = !m_tradingState.buySelected ?
-        ImVec4(0.9f, 0.3f, 0.3f, 1.0f) : ImVec4(0.2f, 0.2f, 0.25f, 0.7f);
-    ImGui::GetWindowDrawList()->AddRectFilled(sellTabMin, sellTabMax,
-        ImGui::ColorConvertFloat4ToU32(sellTabColor), 8.0f);
-
-    if (ImGui::InvisibleButton("SellTab", ImVec2((windowSize.x / 2.0f) - 20.0f, tabHeight))) {
+    ImGui::PushStyleColor(ImGuiCol_Button, !m_tradingState.buySelected ? ImVec4(0.7f, 0.2f, 0.2f, 1.0f) : ImVec4(0.15f, 0.15f, 0.15f, 0.5f));
+    if (ImGui::Button("Sell", ImVec2(halfWidth, 36))) {
         m_tradingState.buySelected = false;
     }
+    ImGui::PopStyleColor(2);
+    ImGui::PopFont();
 
-    // Center the text in the tab
-    textWidth = ImGui::CalcTextSize("SELL").x;
-    ImGui::SetCursorPos(ImVec2(windowSize.x * 3.0f / 4.0f - textWidth / 2.0f, headerHeight + 35.0f));
-    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-    ImGui::Text("SELL");
+    ImGui::Spacing();
+
+    // Order type tabs as custom tabs
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 6.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(1.0f, 1.0f));
+
+    ImGui::PushFont(m_mediumFont);
+    const char* orderTypeLabels[] = { "Market", "Limit" };
+    for (int i = 0; i < 2; i++) {
+        bool isSelected = (m_tradingState.orderType == i);
+        ImGui::PushStyleColor(ImGuiCol_Button, isSelected ? ImVec4(0.8f, 0.2f, 0.2f, 1.0f) : ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, isSelected ? ImVec4(0.9f, 0.3f, 0.3f, 1.0f) : ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, isSelected ? ImVec4(0.8f, 0.2f, 0.2f, 1.0f) : ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Text, isSelected ? ImVec4(1.0f, 1.0f, 1.0f, 1.0f) : ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+
+        float tabWidth = i == 0 ? windowSize.x / 2.0f : windowSize.x / 2.0f;
+        if (ImGui::Button(orderTypeLabels[i], ImVec2(tabWidth, 0))) {
+            m_tradingState.orderType = i;
+        }
+        ImGui::PopStyleColor(4);
+
+        if (i < 1) ImGui::SameLine();
+    }
+    ImGui::PopFont();
+
+    ImGui::PopStyleVar(2);
+
+    // Info text on the right
+    ImGui::SameLine(ImGui::GetWindowWidth() - 130);
+    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "1 GIGA San");
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    // Amount input field
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 10.0f));
+    ImGui::PushFont(m_mediumFont);
+    ImGui::Text("AMOUNT");
+    ImGui::PopFont();
+
+    ImGui::SameLine(ImGui::GetWindowWidth() - 50);
+    ImGui::Text("0");
+    ImGui::SameLine(ImGui::GetWindowWidth() - 30);
+    ImGui::Text("%%");
+
+    ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.12f, 0.12f, 0.12f, 1.00f));
+    ImGui::InputText("##AmountInput", m_tradingState.amountBuf, IM_ARRAYSIZE(m_tradingState.amountBuf));
     ImGui::PopStyleColor();
-    ImGui::EndGroup();
+    ImGui::PopStyleVar();
 
-    ImGui::SetCursorPosY(headerHeight + 20.0f + tabHeight + 20.0f);
-    ImGui::Separator();
-    ImGui::Spacing();
-    ImGui::Spacing();
+    // Percentage buttons
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4.0f, 4.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4.0f, 8.0f));
+    float buttonWidth = (ImGui::GetContentRegionAvail().x - 12.0f) / 4.0f;
 
-    // Order Type with improved styling
-    ImGui::Text("Order Type");
-    ImGui::SetCursorPosX(16.0f);
-    ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.15f, 0.15f, 0.20f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImVec4(0.20f, 0.20f, 0.25f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImVec4(0.25f, 0.25f, 0.30f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.15f, 0.15f, 0.20f, 1.0f));
+    ImGui::PushFont(m_mediumFont);
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
 
-    const char* orderTypes[] = { "Market", "Limit", "Stop", "Stop Limit" };
-    ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - 16.0f);
-    if (ImGui::Combo("##OrderType", &m_tradingState.orderType, orderTypes, IM_ARRAYSIZE(orderTypes))) {
-        // Handle order type change
-        if (m_tradingState.orderType == 0) { // Market
-            strcpy(m_tradingState.priceBuf, "Market");
-        }
-        else {
-            // Restore price value for non-market orders
-            sprintf(m_tradingState.priceBuf, "%.2f", m_tradingState.price);
-        }
-    }
-    ImGui::PopStyleColor(4);
-
-    ImGui::Spacing();
-    ImGui::Spacing();
-
-    // Price Input with improved styling
-    if (m_tradingState.orderType != 0) { // Not Market order
-        ImGui::Text("Price (USD)");
-        ImGui::SetCursorPosX(16.0f);
-        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.15f, 0.15f, 0.20f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.9f, 0.9f, 1.0f));
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - 16.0f);
-
-        // Draw a dollar sign inside the input field
-        float inputPosX = ImGui::GetCursorPosX();
-        float inputPosY = ImGui::GetCursorPosY();
-
-        if (ImGui::InputText("##Price", m_tradingState.priceBuf, sizeof(m_tradingState.priceBuf))) {
-            // Update price value when text changes
-            try {
-                m_tradingState.price = std::stof(m_tradingState.priceBuf);
-            }
-            catch (...) {
-                // Handle invalid input
-            }
-        }
-
-        // Draw currency symbol at the right side of the input
-        ImVec2 textSize = ImGui::CalcTextSize(m_tradingState.priceBuf);
-        ImGui::SameLine(0, 0);
-        ImGui::SetCursorPosX(inputPosX + ImGui::GetItemRectSize().x - 30);
-        ImGui::SetCursorPosY(inputPosY + 2);
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "USD");
-
-        ImGui::PopStyleColor(2);
-        ImGui::Spacing();
-        ImGui::Spacing();
+    if (ImGui::Button("25 %", ImVec2(buttonWidth, 0))) {
+        m_tradingState.amountPercent = 25.0f;
+        UpdateAmountFromPercentage(0.25f);
     }
 
-    // Display rest of trading UI components - omitted for brevity
+    ImGui::SameLine();
+    if (ImGui::Button("50 %", ImVec2(buttonWidth, 0))) {
+        m_tradingState.amountPercent = 50.0f;
+        UpdateAmountFromPercentage(0.5f);
+    }
 
-    // Pop all styling
-    ImGui::PopStyleVar(4);
+    ImGui::SameLine();
+    if (ImGui::Button("75 %", ImVec2(buttonWidth, 0))) {
+        m_tradingState.amountPercent = 75.0f;
+        UpdateAmountFromPercentage(0.75f);
+    }
 
+    ImGui::SameLine();
+    if (ImGui::Button("100 %", ImVec2(buttonWidth, 0))) {
+        m_tradingState.amountPercent = 100.0f;
+        UpdateAmountFromPercentage(1.0f);
+    }
+    ImGui::PopFont();
+
+    ImGui::PopStyleColor(2);
+    ImGui::PopStyleVar(2);
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    // Gas section
+    ImGui::PushFont(m_smallFont);
+    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Gas -");
+    ImGui::SameLine();
+
+    // Gas settings (simplified)
+    ImGui::TextColored(ImVec4(0.9f, 0.9f, 0.9f, 1.0f), "0.002");
+    ImGui::SameLine(ImGui::GetWindowWidth() - 180);
+    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "100%%");
+    ImGui::SameLine(ImGui::GetWindowWidth() - 100);
+    ImGui::TextColored(ImVec4(0.9f, 0.9f, 0.9f, 1.0f), "0.00100");
+    ImGui::PopFont();
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    // Main action button
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 12.0f));
+
+    ImGui::PushFont(m_boldFont);
+    if (m_tradingState.buySelected) {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.5f, 0.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.6f, 0.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.7f, 0.0f, 1.0f));
+        if (ImGui::Button("Buy", ImVec2(-1, 45))) {
+            // Handle buy order
+        }
+        ImGui::PopStyleColor(3);
+    }
+    else {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.3f, 0.3f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.9f, 0.4f, 0.4f, 1.0f));
+        if (ImGui::Button("Sell", ImVec2(-1, 45))) {
+            // Handle sell order
+        }
+        ImGui::PopStyleColor(3);
+    }
+    ImGui::PopFont();
+
+    ImGui::PopStyleVar();
+
+    ImGui::Spacing();
+
+    // Advanced section toggle
+    ImGui::PushFont(m_mediumFont);
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 0.4f, 1.0f));
+    bool advancedOpen = ImGui::CollapsingHeader("Advanced Sell", ImGuiTreeNodeFlags_DefaultOpen);
+    ImGui::PopStyleColor();
+    ImGui::PopFont();
+
+    if (advancedOpen) {
+        // Stats section
+        ImGui::PushFont(m_mediumFont);
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 0.4f, 1.0f));
+        if (ImGui::BeginTabBar("StatsTabBar", ImGuiTabBarFlags_None)) {
+            if (ImGui::BeginTabItem("Stats")) {
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("Checks")) {
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("My Position")) {
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
+        }
+        ImGui::PopStyleColor();
+        ImGui::PopFont();
+
+        // Time interval buttons
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4.0f, 4.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4.0f, 8.0f));
+        float intervalWidth = (ImGui::GetContentRegionAvail().x - 12.0f) / 4.0f;
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));
+
+        if (ImGui::Button("5M\n-20%", ImVec2(intervalWidth, 45))) {}
+
+        ImGui::PopStyleColor();
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 0.4f, 1.0f));
+
+        ImGui::SameLine();
+        if (ImGui::Button("1H\n+61%", ImVec2(intervalWidth, 45))) {}
+
+        ImGui::SameLine();
+        if (ImGui::Button("6H\n+61%", ImVec2(intervalWidth, 45))) {}
+
+        ImGui::SameLine();
+        if (ImGui::Button("24H\n+61%", ImVec2(intervalWidth, 45))) {}
+
+        ImGui::PopStyleColor(3);
+        ImGui::PopStyleVar(2);
+
+        ImGui::Spacing();
+        ImGui::Spacing();
+
+        // Trading metrics section
+        if (ImGui::BeginTable("MetricsTable", 3, ImGuiTableFlags_SizingFixedFit)) {
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Txns");
+            ImGui::Text("809");
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Buys");
+            ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "542");
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Sells");
+            ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "267");
+
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Volume");
+            ImGui::Text("$122.45K");
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Buy Vol");
+            ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "$60.82K");
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Sell Vol");
+            ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "$41.63K");
+
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Makers");
+            ImGui::Text("557");
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Buyers");
+            ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "476");
+
+            ImGui::TableNextColumn();
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Sellers");
+            ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "232");
+
+            ImGui::EndTable();
+        }
+    }
+
+    ImGui::PopStyleVar(4); // Pop all remaining style variables
+    ImGui::PopStyleColor(4); // Pop all remaining style colors
     ImGui::End();
+}
+
+void TradingUI::UpdateAmountFromPercentage(float percentage) {
+    float maxAmount = m_tradingState.buySelected ?
+        m_tradingState.availableQuote / m_animationState.displayedPrice :
+        m_tradingState.availableBase;
+
+    m_tradingState.amount = maxAmount * percentage;
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(4) << m_tradingState.amount;
+    strncpy(m_tradingState.amountBuf, ss.str().c_str(), IM_ARRAYSIZE(m_tradingState.amountBuf));
 }
