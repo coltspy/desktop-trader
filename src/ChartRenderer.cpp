@@ -55,6 +55,21 @@ void ChartRenderer::SetupFinancialChartStyle() {
     style.PlotMinSize = ImVec2(300, 225);
 }
 
+void ChartRenderer::SetChartData(const std::vector<double>& timestamps,
+    const std::vector<double>& opens,
+    const std::vector<double>& highs,
+    const std::vector<double>& lows,
+    const std::vector<double>& closes,
+    const std::vector<double>& volumes) {
+    // Copy the data to our member variables
+    m_sampleTimestamps = timestamps;
+    m_sampleOpens = opens;
+    m_sampleHighs = highs;
+    m_sampleLows = lows;
+    m_sampleCloses = closes;
+    m_sampleVolumes = volumes;
+}
+
 void ChartRenderer::GenerateSampleData() {
     // Generate sample OHLC data for demonstration
     const int num_points = 100;
@@ -180,7 +195,7 @@ void ChartRenderer::RenderCandlestickChart() {
     ImVec2 availableSize = ImGui::GetContentRegionAvail();
 
     // Plot candlestick chart
-    if (ImPlot::BeginPlot("ETH/USD", availableSize)) {
+    if (ImPlot::BeginPlot((m_symbol + "/USD").c_str(), availableSize)) {
         // Setup axes
         ImPlot::SetupAxes("Time", "Price", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
         ImPlot::SetupAxisScale(ImAxis_X1, ImPlotScale_Time);
@@ -190,7 +205,7 @@ void ChartRenderer::RenderCandlestickChart() {
         double min_price = *std::min_element(m_sampleLows.begin(), m_sampleLows.end());
         double max_price = *std::max_element(m_sampleHighs.begin(), m_sampleHighs.end());
         double price_range = max_price - min_price;
-        ImPlot::SetupAxisLimits(ImAxis_Y1, min_price - 0.1 * price_range, max_price + 0.1 * price_range);
+        ImPlot::SetupAxisLimits(ImAxis_Y1, min_price - 0.2 * price_range, max_price + 0.2 * price_range);
         ImPlot::SetupAxisFormat(ImAxis_Y1, "$%.2f");
 
         // Define colors for up/down candles
@@ -218,6 +233,7 @@ void ChartRenderer::RenderCandlestickChart() {
         }
 
         // Plot a simple moving average
+        /*
         if (m_sampleTimestamps.size() >= 20) {
             std::vector<double> sma20(m_sampleTimestamps.size());
             for (int i = 0; i < m_sampleTimestamps.size(); ++i) {
@@ -236,6 +252,7 @@ void ChartRenderer::RenderCandlestickChart() {
             ImPlot::SetNextLineStyle(ImVec4(1.0f, 1.0f, 0.0f, 0.8f), 2.0f);
             ImPlot::PlotLine("20 SMA", m_sampleTimestamps.data(), sma20.data(), (int)sma20.size());
         }
+        */
 
         ImPlot::EndPlot();
     }
@@ -245,7 +262,7 @@ void ChartRenderer::RenderLineChart() {
     // Use the full available space
     ImVec2 availableSize = ImGui::GetContentRegionAvail();
 
-    if (ImPlot::BeginPlot("ETH/USD", availableSize)) {
+    if (ImPlot::BeginPlot((m_symbol + "/USD").c_str(), availableSize)) {
         // Setup axes
         ImPlot::SetupAxes("Time", "Price", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
         ImPlot::SetupAxisScale(ImAxis_X1, ImPlotScale_Time);

@@ -5,6 +5,7 @@
 #include <memory>
 #include <Windows.h>
 #include "TradingUI.h"
+#include "CryptoAPIClient.h" // Add CryptoAPIClient include
 
 // Forward declare the window procedure
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -37,6 +38,12 @@ private:
 
     // UI component
     std::unique_ptr<TradingUI> m_ui;
+
+    // API client
+    std::shared_ptr<CryptoAPIClient> m_apiClient;
+
+    // Data update timer
+    float m_lastUpdateTime = 0.0f;
 
     // State variables
     bool m_initialized = false;

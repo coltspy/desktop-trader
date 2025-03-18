@@ -34,6 +34,20 @@ public:
             ChartDisplayMode::Line : ChartDisplayMode::Candlestick;
     }
 
+    // Set the chart data (new method for API integration)
+    void SetChartData(const std::vector<double>& timestamps,
+        const std::vector<double>& opens,
+        const std::vector<double>& highs,
+        const std::vector<double>& lows,
+        const std::vector<double>& closes,
+        const std::vector<double>& volumes);
+
+    // Set the cryptocurrency symbol for the chart title
+    void SetSymbol(const std::string& symbol) { m_symbol = symbol; }
+
+    // Get the current symbol
+    const std::string& GetSymbol() const { return m_symbol; }
+
 private:
     // Chart rendering methods for different types
     void RenderCandlestickChart();
@@ -54,6 +68,9 @@ private:
 
     // Display mode
     ChartDisplayMode m_displayMode = ChartDisplayMode::Candlestick;
+
+    // Current cryptocurrency symbol
+    std::string m_symbol = "ETH";
 
     // Sample data
     std::vector<double> m_sampleTimestamps;

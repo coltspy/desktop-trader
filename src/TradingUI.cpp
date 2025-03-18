@@ -1,9 +1,12 @@
 #include "TradingUI.h"
 #include "implot.h" // Add ImPlot include
+#include "CryptoAPIClient.h" // Add CryptoAPIClient include
+#include "Config.h" // Add Config include
 #include <random>
 #include <string>
 #include <iomanip>
 #include <sstream>
+#include <algorithm>
 
 extern ImFont* g_defaultFont;
 extern ImFont* g_boldFont;
@@ -11,6 +14,13 @@ extern ImFont* g_mediumFont;
 extern ImFont* g_smallFont;
 
 TradingUI::TradingUI() {
+    // Initialize available symbols from Config
+    for (int i = 0; i < Config::UI::AVAILABLE_CRYPTOS_COUNT; i++) {
+        m_cryptoState.availableSymbols.push_back(Config::UI::AVAILABLE_CRYPTOS[i]);
+    }
+
+    // Set default selected symbol
+    m_cryptoState.selectedSymbol = Config::UI::DEFAULT_CRYPTO;
 }
 
 void TradingUI::Initialize() {
@@ -22,6 +32,9 @@ void TradingUI::Initialize() {
 
     // Initialize chart renderer
     m_chartRenderer.Initialize();
+
+    // Set the initial symbol in the chart renderer
+    m_chartRenderer.SetSymbol(m_cryptoState.selectedSymbol);
 }
 
 void TradingUI::LoadFonts() {
@@ -30,7 +43,6 @@ void TradingUI::LoadFonts() {
     m_boldFont = g_boldFont;
     m_mediumFont = g_mediumFont;
     m_smallFont = g_smallFont;
-
 }
 
 void TradingUI::Render() {
@@ -89,6 +101,23 @@ void TradingUI::Render() {
 
     // End the root window
     ImGui::End();
+
+    // Animate price display
+    float currentTime = ImGui::GetTime();
+    float deltaTime = currentTime - m_animationState.lastUpdateTime;
+    m_animationState.lastUpdateTime = currentTime;
+
+    // Gradually animate towards target price
+    if (m_animationState.displayedPrice != m_animationState.targetPrice) {
+        float animationDuration = 0.5f; // Animation duration in seconds
+        float t = std::min((currentTime - m_animationState.priceChangeTime) / animationDuration, 1.0f);
+        m_animationState.displayedPrice = m_animationState.displayedPrice + (m_animationState.targetPrice - m_animationState.displayedPrice) * t;
+
+        // If we're close enough, snap to the target price
+        if (std::abs(m_animationState.displayedPrice - m_animationState.targetPrice) < 0.01f) {
+            m_animationState.displayedPrice = m_animationState.targetPrice;
+        }
+    }
 }
 
 void TradingUI::SetupImGuiStyle() {
@@ -245,6 +274,110 @@ void TradingUI::RenderMenuBar() {
     }
 }
 
+void TradingUI::RenderCryptoSelector() {
+    // Only render if we have an API client
+    if (!m_apiClient) {
+        return;
+    }
+
+    // Create a combo box for selecting the cryptocurrency
+    ImGui::SetNextItemWidth(120);
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 6.0f));
+
+    if (ImGui::BeginCombo("##CryptoSelector", m_cryptoState.selectedSymbol.c_str())) {
+        for (const auto& symbol : m_cryptoState.availableSymbols) {
+            bool isSelected = (symbol == m_cryptoState.selectedSymbol);
+            if (ImGui::Selectable(symbol.c_str(), isSelected)) {
+                if (symbol != m_cryptoState.selectedSymbol) {
+                    m_cryptoState.selectedSymbol = symbol;
+                    m_chartRenderer.SetSymbol(symbol);
+
+                    // Update the price and chart data for the new symbol
+                    UpdatePriceData();
+                }
+            }
+            if (isSelected) {
+                ImGui::SetItemDefaultFocus();
+            }
+        }
+        ImGui::EndCombo();
+    }
+
+    ImGui::PopStyleVar();
+
+    // Show loading indicator if we're fetching data
+    if (m_cryptoState.isLoading) {
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), "Loading...");
+    }
+
+    // Show error message if any
+    if (!m_cryptoState.errorMessage.empty()) {
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f), "%s", m_cryptoState.errorMessage.c_str());
+
+        // Clear error after 3 seconds
+        static float errorTime = ImGui::GetTime();
+        if (ImGui::GetTime() - errorTime > 3.0f) {
+            m_cryptoState.errorMessage.clear();
+        }
+    }
+}
+
+void TradingUI::UpdatePriceData() {
+    if (!m_apiClient) {
+        m_cryptoState.errorMessage = "API client not initialized";
+        return;
+    }
+
+    // Set loading state
+    m_cryptoState.isLoading = true;
+    m_cryptoState.errorMessage.clear();
+
+    // Fetch the latest quote for the selected symbol
+    m_apiClient->FetchLatestQuote(m_cryptoState.selectedSymbol, [this](const PriceData& priceData) {
+        // Update the trading state with the new price
+        m_tradingState.price = priceData.price;
+
+        // Update the animation state
+        m_animationState.targetPrice = priceData.price;
+        m_animationState.priceChangeTime = ImGui::GetTime();
+
+        // Format the price string
+        std::stringstream ss;
+        ss << std::fixed << std::setprecision(2) << priceData.price;
+        strncpy(m_tradingState.priceBuf, ss.str().c_str(), IM_ARRAYSIZE(m_tradingState.priceBuf));
+
+        // Clear loading state
+        m_cryptoState.isLoading = false;
+        });
+
+    // Fetch historical data for the chart
+    m_apiClient->FetchHistoricalData(m_cryptoState.selectedSymbol, [this](const std::vector<PriceData>& historicalData) {
+        // Update the chart renderer with the new data
+        if (!historicalData.empty()) {
+            std::vector<double> timestamps;
+            std::vector<double> opens;
+            std::vector<double> highs;
+            std::vector<double> lows;
+            std::vector<double> closes;
+            std::vector<double> volumes;
+
+            for (const auto& data : historicalData) {
+                timestamps.push_back(data.timestamp);
+                opens.push_back(data.open);
+                highs.push_back(data.high);
+                lows.push_back(data.low);
+                closes.push_back(data.close);
+                volumes.push_back(data.volume);
+            }
+
+            // Update the chart renderer's data
+            m_chartRenderer.SetChartData(timestamps, opens, highs, lows, closes, volumes);
+        }
+        });
+}
+
 void TradingUI::RenderChartWindow() {
     ImGuiWindowFlags flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
         ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
@@ -256,7 +389,17 @@ void TradingUI::RenderChartWindow() {
 
     // Use bold font for the title
     ImGui::PushFont(m_boldFont);
-    ImGui::Text("ETH/USD Price Chart");
+
+    // Add cryptocurrency selector dropdown
+    RenderCryptoSelector();
+
+    ImGui::SameLine();
+    ImGui::Text("Price Chart");
+
+    // Display current price with animation
+    ImGui::SameLine(ImGui::GetWindowWidth() - 150);
+    ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "$%.2f", m_animationState.displayedPrice);
+
     ImGui::PopFont();
 
     ImGui::Spacing();
@@ -306,7 +449,7 @@ void TradingUI::RenderPositionsWindow() {
         ImGui::TableNextRow();
 
         ImGui::TableNextColumn();
-        ImGui::Text("ETH/USD");
+        ImGui::Text("%s/USD", m_cryptoState.selectedSymbol.c_str());
 
         ImGui::TableNextColumn();
         ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "Long");
@@ -315,7 +458,7 @@ void TradingUI::RenderPositionsWindow() {
         ImGui::Text("$1,795.23");
 
         ImGui::TableNextColumn();
-        ImGui::Text("0.75 ETH");
+        ImGui::Text("0.75 %s", m_cryptoState.selectedSymbol.c_str());
 
         ImGui::TableNextColumn();
         ImGui::Text("$%.2f", m_animationState.displayedPrice);
@@ -380,6 +523,10 @@ void TradingUI::RenderTradingWindow() {
 
     // Use bold font for buy/sell tabs
     ImGui::PushFont(m_boldFont);
+
+    // Display the current trading pair in the header
+    ImGui::Text("%s/USD", m_cryptoState.selectedSymbol.c_str());
+    ImGui::Spacing();
 
     ImGui::PushStyleColor(ImGuiCol_Button, m_tradingState.buySelected ? ImVec4(0.15f, 0.15f, 0.15f, 1.0f) : ImVec4(0.15f, 0.15f, 0.15f, 0.5f));
     if (ImGui::Button("Buy", ImVec2(halfWidth, 36))) {

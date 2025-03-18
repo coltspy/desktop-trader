@@ -52,7 +52,7 @@ build cmake_object_order_depends_target_imgui: phony || .
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\imgui.cpp || cmake_object_order_depends_target_imgui
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\imgui.dir
   OBJECT_FILE_DIR = CMakeFiles\imgui.dir\_deps\imgui-src
   TARGET_COMPILE_PDB = CMakeFiles\imgui.dir\imgui.pdb
@@ -61,7 +61,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui.cpp.obj: CXX_COMPILER__imgui_un
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_demo.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\imgui_demo.cpp || cmake_object_order_depends_target_imgui
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\imgui.dir
   OBJECT_FILE_DIR = CMakeFiles\imgui.dir\_deps\imgui-src
   TARGET_COMPILE_PDB = CMakeFiles\imgui.dir\imgui.pdb
@@ -70,7 +70,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_demo.cpp.obj: CXX_COMPILER__img
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_draw.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\imgui_draw.cpp || cmake_object_order_depends_target_imgui
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\imgui.dir
   OBJECT_FILE_DIR = CMakeFiles\imgui.dir\_deps\imgui-src
   TARGET_COMPILE_PDB = CMakeFiles\imgui.dir\imgui.pdb
@@ -79,7 +79,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_draw.cpp.obj: CXX_COMPILER__img
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_tables.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\imgui_tables.cpp || cmake_object_order_depends_target_imgui
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\imgui.dir
   OBJECT_FILE_DIR = CMakeFiles\imgui.dir\_deps\imgui-src
   TARGET_COMPILE_PDB = CMakeFiles\imgui.dir\imgui.pdb
@@ -88,7 +88,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_tables.cpp.obj: CXX_COMPILER__i
 build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_widgets.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\imgui_widgets.cpp || cmake_object_order_depends_target_imgui
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\imgui.dir
   OBJECT_FILE_DIR = CMakeFiles\imgui.dir\_deps\imgui-src
   TARGET_COMPILE_PDB = CMakeFiles\imgui.dir\imgui.pdb
@@ -97,7 +97,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\imgui_widgets.cpp.obj: CXX_COMPILER__
 build CMakeFiles\imgui.dir\_deps\imgui-src\backends\imgui_impl_win32.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends\imgui_impl_win32.cpp || cmake_object_order_depends_target_imgui
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\imgui.dir
   OBJECT_FILE_DIR = CMakeFiles\imgui.dir\_deps\imgui-src\backends
   TARGET_COMPILE_PDB = CMakeFiles\imgui.dir\imgui.pdb
@@ -106,7 +106,7 @@ build CMakeFiles\imgui.dir\_deps\imgui-src\backends\imgui_impl_win32.cpp.obj: CX
 build CMakeFiles\imgui.dir\_deps\imgui-src\backends\imgui_impl_dx11.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends\imgui_impl_dx11.cpp || cmake_object_order_depends_target_imgui
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\imgui.dir
   OBJECT_FILE_DIR = CMakeFiles\imgui.dir\_deps\imgui-src\backends
   TARGET_COMPILE_PDB = CMakeFiles\imgui.dir\imgui.pdb
@@ -142,7 +142,7 @@ build cmake_object_order_depends_target_implot: phony || cmake_object_order_depe
 build CMakeFiles\implot.dir\_deps\implot-src\implot.cpp.obj: CXX_COMPILER__implot_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src\implot.cpp || cmake_object_order_depends_target_implot
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\implot.dir
   OBJECT_FILE_DIR = CMakeFiles\implot.dir\_deps\implot-src
   TARGET_COMPILE_PDB = CMakeFiles\implot.dir\implot.pdb
@@ -151,7 +151,7 @@ build CMakeFiles\implot.dir\_deps\implot-src\implot.cpp.obj: CXX_COMPILER__implo
 build CMakeFiles\implot.dir\_deps\implot-src\implot_items.cpp.obj: CXX_COMPILER__implot_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src\implot_items.cpp || cmake_object_order_depends_target_implot
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\implot.dir
   OBJECT_FILE_DIR = CMakeFiles\implot.dir\_deps\implot-src
   TARGET_COMPILE_PDB = CMakeFiles\implot.dir\implot.pdb
@@ -160,7 +160,7 @@ build CMakeFiles\implot.dir\_deps\implot-src\implot_items.cpp.obj: CXX_COMPILER_
 build CMakeFiles\implot.dir\_deps\implot-src\implot_demo.cpp.obj: CXX_COMPILER__implot_unscanned_Debug C$:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src\implot_demo.cpp || cmake_object_order_depends_target_implot
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\implot.dir
   OBJECT_FILE_DIR = CMakeFiles\implot.dir\_deps\implot-src
   TARGET_COMPILE_PDB = CMakeFiles\implot.dir\implot.pdb
@@ -196,7 +196,7 @@ build cmake_object_order_depends_target_TradingPlatform: phony || cmake_object_o
 build CMakeFiles\TradingPlatform.dir\src\main.cpp.obj: CXX_COMPILER__TradingPlatform_unscanned_Debug C$:\dev\vsrepos\trading-platform\src\main.cpp || cmake_object_order_depends_target_TradingPlatform
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\TradingPlatform.dir
   OBJECT_FILE_DIR = CMakeFiles\TradingPlatform.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TradingPlatform.dir\
@@ -205,7 +205,7 @@ build CMakeFiles\TradingPlatform.dir\src\main.cpp.obj: CXX_COMPILER__TradingPlat
 build CMakeFiles\TradingPlatform.dir\src\App.cpp.obj: CXX_COMPILER__TradingPlatform_unscanned_Debug C$:\dev\vsrepos\trading-platform\src\App.cpp || cmake_object_order_depends_target_TradingPlatform
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\TradingPlatform.dir
   OBJECT_FILE_DIR = CMakeFiles\TradingPlatform.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TradingPlatform.dir\
@@ -214,7 +214,7 @@ build CMakeFiles\TradingPlatform.dir\src\App.cpp.obj: CXX_COMPILER__TradingPlatf
 build CMakeFiles\TradingPlatform.dir\src\TradingUI.cpp.obj: CXX_COMPILER__TradingPlatform_unscanned_Debug C$:\dev\vsrepos\trading-platform\src\TradingUI.cpp || cmake_object_order_depends_target_TradingPlatform
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\TradingPlatform.dir
   OBJECT_FILE_DIR = CMakeFiles\TradingPlatform.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TradingPlatform.dir\
@@ -223,7 +223,25 @@ build CMakeFiles\TradingPlatform.dir\src\TradingUI.cpp.obj: CXX_COMPILER__Tradin
 build CMakeFiles\TradingPlatform.dir\src\ChartRenderer.cpp.obj: CXX_COMPILER__TradingPlatform_unscanned_Debug C$:\dev\vsrepos\trading-platform\src\ChartRenderer.cpp || cmake_object_order_depends_target_TradingPlatform
   DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
-  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
+  OBJECT_DIR = CMakeFiles\TradingPlatform.dir
+  OBJECT_FILE_DIR = CMakeFiles\TradingPlatform.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\TradingPlatform.dir\
+  TARGET_PDB = TradingPlatform.pdb
+
+build CMakeFiles\TradingPlatform.dir\src\CryptoAPIClient.cpp.obj: CXX_COMPILER__TradingPlatform_unscanned_Debug C$:\dev\vsrepos\trading-platform\src\CryptoAPIClient.cpp || cmake_object_order_depends_target_TradingPlatform
+  DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
+  OBJECT_DIR = CMakeFiles\TradingPlatform.dir
+  OBJECT_FILE_DIR = CMakeFiles\TradingPlatform.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\TradingPlatform.dir\
+  TARGET_PDB = TradingPlatform.pdb
+
+build CMakeFiles\TradingPlatform.dir\src\Config.cpp.obj: CXX_COMPILER__TradingPlatform_unscanned_Debug C$:\dev\vsrepos\trading-platform\src\Config.cpp || cmake_object_order_depends_target_TradingPlatform
+  DEFINES = -DImDrawIdx="unsigned int" -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\dev\vsrepos\trading-platform\include -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\imgui-src\backends -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\implot-src -IC:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-src\include
   OBJECT_DIR = CMakeFiles\TradingPlatform.dir
   OBJECT_FILE_DIR = CMakeFiles\TradingPlatform.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\TradingPlatform.dir\
@@ -237,9 +255,9 @@ build CMakeFiles\TradingPlatform.dir\src\ChartRenderer.cpp.obj: CXX_COMPILER__Tr
 #############################################
 # Link the executable TradingPlatform.exe
 
-build TradingPlatform.exe: CXX_EXECUTABLE_LINKER__TradingPlatform_Debug CMakeFiles\TradingPlatform.dir\src\main.cpp.obj CMakeFiles\TradingPlatform.dir\src\App.cpp.obj CMakeFiles\TradingPlatform.dir\src\TradingUI.cpp.obj CMakeFiles\TradingPlatform.dir\src\ChartRenderer.cpp.obj | imgui.lib implot.lib imgui.lib || imgui.lib implot.lib
+build TradingPlatform.exe: CXX_EXECUTABLE_LINKER__TradingPlatform_Debug CMakeFiles\TradingPlatform.dir\src\main.cpp.obj CMakeFiles\TradingPlatform.dir\src\App.cpp.obj CMakeFiles\TradingPlatform.dir\src\TradingUI.cpp.obj CMakeFiles\TradingPlatform.dir\src\ChartRenderer.cpp.obj CMakeFiles\TradingPlatform.dir\src\CryptoAPIClient.cpp.obj CMakeFiles\TradingPlatform.dir\src\Config.cpp.obj | imgui.lib implot.lib imgui.lib || imgui.lib implot.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:windows /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup
+  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:windows  /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup
   LINK_LIBRARIES = imgui.lib  implot.lib  d3d11.lib  dxgi.lib  d3dcompiler.lib  user32.lib  gdi32.lib  shell32.lib  imgui.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\TradingPlatform.dir
   POST_BUILD = cd .
@@ -272,35 +290,33 @@ build CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
 
 build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/dev/vsrepos/trading-platform/CMakeLists.txt
+# =============================================================================
+
 
 #############################################
-# Utility command for list_install_components
+# Utility command for edit_cache
 
-build list_install_components: phony
+build _deps\json-build\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-build && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps\json-build\edit_cache: phony _deps\json-build\CMakeFiles\edit_cache.util
 
 
 #############################################
-# Utility command for install
+# Utility command for rebuild_cache
 
-build CMakeFiles\install.util: CUSTOM_COMMAND all
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\dev\vsrepos\trading-platform\out\build\x64-debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -P cmake_install.cmake"
-  DESC = Install the project...
+build _deps\json-build\CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\dev\vsrepos\trading-platform\out\build\x64-debug\_deps\json-build && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -SC:\dev\vsrepos\trading-platform -BC:\dev\vsrepos\trading-platform\out\build\x64-debug"
+  DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
 
-build install: phony CMakeFiles\install.util
-
-
-#############################################
-# Utility command for install/local
-
-build CMakeFiles\install\local.util: CUSTOM_COMMAND all
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\dev\vsrepos\trading-platform\out\build\x64-debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
-  DESC = Installing only the local directory...
-  pool = console
-  restat = 1
-
-build install\local: phony CMakeFiles\install\local.util
+build _deps\json-build\rebuild_cache: phony _deps\json-build\CMakeFiles\rebuild_cache.util
 
 # =============================================================================
 # Target aliases.
@@ -319,7 +335,14 @@ build implot: phony implot.lib
 #############################################
 # Folder: C:/dev/vsrepos/trading-platform/out/build/x64-debug
 
-build all: phony imgui.lib implot.lib TradingPlatform.exe
+build all: phony imgui.lib implot.lib TradingPlatform.exe _deps\json-build\all
+
+# =============================================================================
+
+#############################################
+# Folder: C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/json-build
+
+build _deps\json-build\all: phony
 
 # =============================================================================
 # Built-in targets
@@ -328,14 +351,14 @@ build all: phony imgui.lib implot.lib TradingPlatform.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\ExternalProject\shared_internal_commands.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FetchContent.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FetchContent\CMakeLists.cmake.in C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindGit.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindPackageHandleStandardArgs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindPackageMessage.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-Initialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\WindowsPaths.cmake C$:\dev\vsrepos\trading-platform\CMakeLists.txt CMakeCache.txt CMakeFiles\3.29.5-msvc4\CMakeCCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeCXXCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeRCCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\ExternalProject.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\ExternalProject\shared_internal_commands.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FetchContent.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FetchContent\CMakeLists.cmake.in C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindGit.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindPackageHandleStandardArgs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindPackageMessage.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\GNUInstallDirs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-Initialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\WindowsPaths.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake C$:\dev\vsrepos\trading-platform\CMakeLists.txt CMakeCache.txt CMakeFiles\3.29.5-msvc4\CMakeCCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeCXXCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeRCCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeSystem.cmake _deps\json-src\CMakeLists.txt _deps\json-src\cmake\config.cmake.in _deps\json-src\cmake\nlohmann_jsonConfigVersion.cmake.in _deps\json-src\cmake\pkg-config.pc.in
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\ExternalProject\shared_internal_commands.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FetchContent.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FetchContent\CMakeLists.cmake.in C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindGit.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindPackageHandleStandardArgs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindPackageMessage.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-Initialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\WindowsPaths.cmake C$:\dev\vsrepos\trading-platform\CMakeLists.txt CMakeCache.txt CMakeFiles\3.29.5-msvc4\CMakeCCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeCXXCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeRCCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeSystem.cmake: phony
+build C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCXXInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeCommonLanguageInclude.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeGenericSystem.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeInitializeConfigs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeLanguageInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeRCInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInformation.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInitialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Compiler\MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\ExternalProject.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\ExternalProject\shared_internal_commands.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FetchContent.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FetchContent\CMakeLists.cmake.in C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindGit.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindPackageHandleStandardArgs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\FindPackageMessage.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\GNUInstallDirs.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-Initialize.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC-C.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows-MSVC.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\Windows.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\Platform\WindowsPaths.cmake C$:\Program$ Files\Microsoft$ Visual$ Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake C$:\dev\vsrepos\trading-platform\CMakeLists.txt CMakeCache.txt CMakeFiles\3.29.5-msvc4\CMakeCCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeCXXCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeRCCompiler.cmake CMakeFiles\3.29.5-msvc4\CMakeSystem.cmake _deps\json-src\CMakeLists.txt _deps\json-src\cmake\config.cmake.in _deps\json-src\cmake\nlohmann_jsonConfigVersion.cmake.in _deps\json-src\cmake\pkg-config.pc.in: phony
 
 
 #############################################

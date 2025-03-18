@@ -4,6 +4,11 @@
 #include "imgui_internal.h"
 #include "ChartRenderer.h" // Add ChartRenderer include
 #include <string>
+#include <memory>
+#include <vector>
+
+// Forward declaration
+class CryptoAPIClient;
 
 class TradingUI {
 public:
@@ -12,6 +17,15 @@ public:
 
     void Initialize();
     void Render();
+
+    // Set the API client
+    void SetAPIClient(std::shared_ptr<CryptoAPIClient> apiClient) { m_apiClient = apiClient; }
+
+    // Get the selected cryptocurrency symbol
+    const std::string& GetSelectedSymbol() const { return m_cryptoState.selectedSymbol; }
+
+    // Update the price data from the API
+    void UpdatePriceData();
 
 private:
     // UI setup
@@ -26,6 +40,9 @@ private:
     void RenderChartWindow();
     void RenderPositionsWindow();
     void RenderTradingWindow();
+
+    // New method for cryptocurrency selection
+    void RenderCryptoSelector();
 
     // Helper function for updating amount from percentage buttons
     void UpdateAmountFromPercentage(float percentage);
@@ -63,6 +80,14 @@ private:
         float lastUpdateTime = 0.0f;
     } m_animationState;
 
+    // Cryptocurrency selection state
+    struct {
+        std::vector<std::string> availableSymbols;
+        std::string selectedSymbol;
+        bool isLoading = false;
+        std::string errorMessage;
+    } m_cryptoState;
+
     // Font pointers
     ImFont* m_defaultFont = nullptr;
     ImFont* m_boldFont = nullptr;
@@ -71,6 +96,9 @@ private:
 
     // Chart renderer
     ChartRenderer m_chartRenderer;
+
+    // API client reference
+    std::shared_ptr<CryptoAPIClient> m_apiClient;
 
     // DockSpace ID and state
     ImGuiID m_dockspaceId = 0;

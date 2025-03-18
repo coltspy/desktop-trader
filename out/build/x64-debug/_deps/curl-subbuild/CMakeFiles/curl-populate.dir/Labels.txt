@@ -1,0 +1,14 @@
+# Target labels
+ curl-populate
+# Source files and their labels
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/CMakeFiles/curl-populate
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/CMakeFiles/curl-populate.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/CMakeFiles/curl-populate-complete.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/curl-populate-prefix/src/curl-populate-stamp/curl-populate-build.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/curl-populate-prefix/src/curl-populate-stamp/curl-populate-configure.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/curl-populate-prefix/src/curl-populate-stamp/curl-populate-download.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/curl-populate-prefix/src/curl-populate-stamp/curl-populate-install.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/curl-populate-prefix/src/curl-populate-stamp/curl-populate-mkdir.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/curl-populate-prefix/src/curl-populate-stamp/curl-populate-patch.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/curl-populate-prefix/src/curl-populate-stamp/curl-populate-test.rule
+C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-subbuild/curl-populate-prefix/src/curl-populate-stamp/curl-populate-update.rule

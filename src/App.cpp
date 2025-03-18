@@ -2,6 +2,7 @@
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
 #include "implot.h"
+#include "Config.h"
 
 // Global font pointers that can be accessed from TradingUI
 ImFont* g_defaultFont = nullptr;
@@ -11,6 +12,7 @@ ImFont* g_smallFont = nullptr;
 
 App::App() {
     m_ui = std::make_unique<TradingUI>();
+    m_apiClient = std::make_shared<CryptoAPIClient>();
 }
 
 App::~App() {
@@ -68,8 +70,20 @@ bool App::Initialize(HWND hwnd) {
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX11_Init(m_device, m_deviceContext);
 
+    // Initialize API client with key from config
+    if (!m_apiClient->Initialize(Config::API::CMC_API_KEY)) {
+        OutputDebugStringA("Warning: Failed to initialize API client\n");
+        // Continue anyway, we'll use mock data
+    }
+
+    // Set the API client in the UI
+    m_ui->SetAPIClient(m_apiClient);
+
     // Initialize UI
     m_ui->Initialize();
+
+    // Perform initial data update
+    m_ui->UpdatePriceData();
 
     m_initialized = true;
     return true;
@@ -78,6 +92,11 @@ bool App::Initialize(HWND hwnd) {
 void App::Shutdown() {
     if (!m_initialized)
         return;
+
+    // Shutdown API client
+    if (m_apiClient) {
+        m_apiClient->Shutdown();
+    }
 
     // ImGui cleanup
     ImGui_ImplDX11_Shutdown();
@@ -117,6 +136,13 @@ bool App::Run() {
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+
+    // Update data periodically
+    float currentTime = ImGui::GetTime();
+    if (currentTime - m_lastUpdateTime >= Config::API::PRICE_UPDATE_INTERVAL) {
+        m_ui->UpdatePriceData();
+        m_lastUpdateTime = currentTime;
+    }
 
     // Render UI
     m_ui->Render();
