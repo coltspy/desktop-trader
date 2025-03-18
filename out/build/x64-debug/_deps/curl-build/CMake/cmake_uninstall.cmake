@@ -21,16 +21,16 @@
 # SPDX-License-Identifier: curl
 #
 ###########################################################################
-if(NOT EXISTS "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/install_manifest.txt")
+if(NOT EXISTS "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/install_manifest.txt")
+  message(FATAL_ERROR "Cannot find install manifest: C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/install_manifest.txt")
 endif()
 
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/dev/vsrepos/trading-platform/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug")
 endif()
 message(${CMAKE_INSTALL_PREFIX})
 
-file(READ "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/install_manifest.txt" files)
+file(READ "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 foreach(file ${files})
   message(STATUS "Uninstalling $ENV{DESTDIR}${file}")

@@ -1,16 +1,16 @@
 #include "CryptoAPIClient.h"
 #include "Config.h"
+#include "SimpleHttpClient.h"
+#include <nlohmann/json.hpp>
 #include <iostream>
 #include <sstream>
 #include <ctime>
 #include <random>
 #include <algorithm>
-#include <thread>
 #include <chrono>
 
-// Simple implementation without curl dependency
+// Implementation using WinHttp for real API calls
 CryptoAPIClient::CryptoAPIClient() : m_shouldStop(false) {
-    // No curl initialization needed
 }
 
 CryptoAPIClient::~CryptoAPIClient() {
@@ -42,56 +42,92 @@ void CryptoAPIClient::Shutdown() {
     }
 }
 
-bool CryptoAPIClient::FetchLatestQuote(const std::string& symbol, std::function<void(const PriceData&)> callback) {
-    // Simplified version that just uses mock data
-    // In a real app, this would make an HTTP request to CoinMarketCap
+bool CryptoAPIClient::FetchLatestQuote(const std::string& symbol, std::function<void(const PriceData&, bool isRealData)> callback) {
+    // Enqueue the API request
+    std::function<void(const std::string&)> responseCallback = [callback, symbol, this](const std::string& response) {
+        try {
+            // If response is empty, use mock data
+            if (response.empty()) {
+                PriceData mockData = GenerateMockPriceData(symbol);
+                callback(mockData, false); // false indicates mock data
+                return;
+            }
 
-    // Enqueue the request
-    std::function<void(const std::string&)> responseCallback = [callback, symbol](const std::string& response) {
-        // Create mock data based on the symbol since we're not using curl
-        PriceData mockData;
-        mockData.symbol = symbol;
+            // Parse JSON response
+            nlohmann::json json = nlohmann::json::parse(response);
 
-        if (symbol == "BTC") {
-            mockData.price = 65000.0 + (std::rand() % 2000 - 1000);
-        }
-        else if (symbol == "ETH") {
-            mockData.price = 2500.0 + (std::rand() % 100 - 50);
-        }
-        else if (symbol == "USDT") {
-            mockData.price = 1.0 + (std::rand() % 2 - 1) * 0.01;
-        }
-        else if (symbol == "SOL") {
-            mockData.price = 150.0 + (std::rand() % 10 - 5);
-        }
-        else if (symbol == "XRP") {
-            mockData.price = 0.5 + (std::rand() % 10 - 5) * 0.01;
-        }
-        else if (symbol == "BNB") {
-            mockData.price = 350.0 + (std::rand() % 20 - 10);
-        }
-        else if (symbol == "ADA") {
-            mockData.price = 0.4 + (std::rand() % 10 - 5) * 0.01;
-        }
-        else if (symbol == "DOT") {
-            mockData.price = 8.0 + (std::rand() % 100 - 50) * 0.01;
-        }
-        else {
-            mockData.price = 100.0 + (std::rand() % 20 - 10);
-        }
+            // Handle API error response
+            if (json.contains("status") && json["status"].contains("error_code") && json["status"]["error_code"] != 0) {
+                m_lastError = "API Error: " + json["status"]["error_message"].get<std::string>();
+                std::cerr << m_lastError << std::endl;
 
-        mockData.volume24h = (std::rand() % 1000 + 500) * 1000000;
-        mockData.percentChange1h = (std::rand() % 400 - 200) * 0.01;
-        mockData.percentChange24h = (std::rand() % 1000 - 500) * 0.01;
-        mockData.percentChange7d = (std::rand() % 2000 - 1000) * 0.01;
-        mockData.marketCap = mockData.price * (std::rand() % 10 + 10) * 1000000;
+                // Fallback to mock data
+                PriceData mockData = GenerateMockPriceData(symbol);
+                callback(mockData, false); // false indicates mock data
+                return;
+            }
 
-        time_t now = time(nullptr);
-        char timeBuffer[30];
-        strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%dT%H:%M:%S.000Z", gmtime(&now));
-        mockData.lastUpdated = timeBuffer;
+            // Parse the JSON response based on CoinMarketCap's API structure
+            if (json.contains("data") && json["data"].contains(symbol)) {
+                PriceData priceData;
+                priceData.symbol = symbol;
 
-        callback(mockData);
+                // Handle the data structure, which might be different than our simplified expectations
+                try {
+                    const auto& symbolData = json["data"][symbol];
+                    // Check if it's an array or object
+                    const auto& data = symbolData.is_array() ? symbolData[0] : symbolData;
+                    const auto& quote = data["quote"]["USD"];
+
+                    priceData.price = quote["price"].get<double>();
+                    priceData.volume24h = quote["volume_24h"].get<double>();
+
+                    // These fields might not exist in all API response tiers
+                    if (quote.contains("percent_change_1h"))
+                        priceData.percentChange1h = quote["percent_change_1h"].get<double>();
+                    if (quote.contains("percent_change_24h"))
+                        priceData.percentChange24h = quote["percent_change_24h"].get<double>();
+                    if (quote.contains("percent_change_7d"))
+                        priceData.percentChange7d = quote["percent_change_7d"].get<double>();
+                    if (quote.contains("market_cap"))
+                        priceData.marketCap = quote["market_cap"].get<double>();
+
+                    priceData.lastUpdated = quote["last_updated"].get<std::string>();
+
+                    // Copy price to other fields for chart consistency
+                    priceData.open = priceData.price;
+                    priceData.high = priceData.price;
+                    priceData.low = priceData.price;
+                    priceData.close = priceData.price;
+
+                    // Debug output to confirm API response
+                    std::cout << "Successfully parsed real API data for " << symbol << ": $"
+                        << priceData.price << std::endl;
+
+                    callback(priceData, true); // true indicates real API data
+                    return;
+                }
+                catch (const std::exception& e) {
+                    // Specific parsing errors in data structure, fallback to mock
+                    std::cerr << "Error parsing data structure: " << e.what() << std::endl;
+                }
+            }
+
+            // If we reach here, either data structure wasn't as expected or parsing failed
+            // Use mock data as fallback
+            PriceData mockData = GenerateMockPriceData(symbol);
+            callback(mockData, false); // false indicates mock data
+
+        }
+        catch (const std::exception& e) {
+            // Handle general parsing errors
+            std::cerr << "Error parsing API response: " << e.what() << std::endl;
+            m_lastError = std::string("Parsing error: ") + e.what();
+
+            // Fallback to mock data
+            PriceData mockData = GenerateMockPriceData(symbol);
+            callback(mockData, false); // false indicates mock data
+        }
         };
 
     // Enqueue the request
@@ -104,8 +140,61 @@ bool CryptoAPIClient::FetchLatestQuote(const std::string& symbol, std::function<
     return true;
 }
 
+PriceData CryptoAPIClient::GenerateMockPriceData(const std::string& symbol) {
+    PriceData mockData;
+    mockData.symbol = symbol;
+
+    if (symbol == "BTC") {
+        mockData.price = 65000.0 + (std::rand() % 2000 - 1000);
+    }
+    else if (symbol == "ETH") {
+        mockData.price = 2500.0 + (std::rand() % 100 - 50);
+    }
+    else if (symbol == "USDT") {
+        mockData.price = 1.0 + (std::rand() % 2 - 1) * 0.01;
+    }
+    else if (symbol == "SOL") {
+        mockData.price = 150.0 + (std::rand() % 10 - 5);
+    }
+    else if (symbol == "XRP") {
+        mockData.price = 0.5 + (std::rand() % 10 - 5) * 0.01;
+    }
+    else if (symbol == "BNB") {
+        mockData.price = 350.0 + (std::rand() % 20 - 10);
+    }
+    else if (symbol == "ADA") {
+        mockData.price = 0.4 + (std::rand() % 10 - 5) * 0.01;
+    }
+    else if (symbol == "DOT") {
+        mockData.price = 8.0 + (std::rand() % 100 - 50) * 0.01;
+    }
+    else {
+        mockData.price = 100.0 + (std::rand() % 20 - 10);
+    }
+
+    mockData.volume24h = (std::rand() % 1000 + 500) * 1000000;
+    mockData.percentChange1h = (std::rand() % 400 - 200) * 0.01;
+    mockData.percentChange24h = (std::rand() % 1000 - 500) * 0.01;
+    mockData.percentChange7d = (std::rand() % 2000 - 1000) * 0.01;
+    mockData.marketCap = mockData.price * (std::rand() % 10 + 10) * 1000000;
+
+    time_t now = time(nullptr);
+    char timeBuffer[30];
+    strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%dT%H:%M:%S.000Z", gmtime(&now));
+    mockData.lastUpdated = timeBuffer;
+
+    // Copy to OHLC data
+    mockData.open = mockData.price;
+    mockData.high = mockData.price * 1.005;
+    mockData.low = mockData.price * 0.995;
+    mockData.close = mockData.price;
+
+    return mockData;
+}
+
 bool CryptoAPIClient::FetchHistoricalData(const std::string& symbol, std::function<void(const std::vector<PriceData>&)> callback) {
-    // Generate mock historical data
+    // CoinMarketCap doesn't have a free historical data endpoint in their API
+    // So we'll generate mock historical data for the chart
     std::vector<PriceData> historicalData;
     GenerateMockHistoricalData(symbol, historicalData);
 
@@ -189,14 +278,51 @@ void CryptoAPIClient::GenerateMockHistoricalData(const std::string& symbol, std:
 }
 
 bool CryptoAPIClient::MakeRequest(const std::string& endpoint, const std::map<std::string, std::string>& params, std::string& response) {
-    // Simplified implementation without curl
-    // Just return a success status, the response will be empty
-    // In the real world this would make an HTTP request
+    try {
+        // Build the URL with query parameters
+        std::string url = m_baseUrl + endpoint + "?";
+        bool first = true;
 
-    // Sleep to simulate network latency
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        for (const auto& param : params) {
+            if (!first) {
+                url += "&";
+            }
+            url += param.first + "=" + param.second;
+            first = false;
+        }
 
-    return true;
+        // Log the request (without the API key for security)
+        std::cout << "Making API request to: " << url << std::endl;
+
+        // Setup headers
+        std::map<std::string, std::string> headers = {
+            {"X-CMC_PRO_API_KEY", m_apiKey},
+            {"Accept", "application/json"}
+        };
+
+        // Make the HTTP request
+        std::string error;
+        bool success = SimpleHttpClient::Get(url, headers, response, error);
+
+        if (!success) {
+            m_lastError = "HTTP request failed: " + error;
+            std::cerr << m_lastError << std::endl;
+            return false;
+        }
+
+        // Log successful response (partial, for debugging)
+        if (response.length() > 0) {
+            std::cout << "Received API response (" << response.length()
+                << " bytes): " << response.substr(0, 100) << "..." << std::endl;
+        }
+
+        return true;
+    }
+    catch (const std::exception& e) {
+        m_lastError = "Request error: " + std::string(e.what());
+        std::cerr << m_lastError << std::endl;
+        return false;
+    }
 }
 
 void CryptoAPIClient::ProcessRequests() {
@@ -225,7 +351,7 @@ void CryptoAPIClient::ProcessRequests() {
             request.callback(response);
         }
         else {
-            // Call the callback with an empty response
+            // Call the callback with an empty response to trigger fallback
             request.callback("");
         }
     }

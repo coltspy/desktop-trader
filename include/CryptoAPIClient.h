@@ -43,7 +43,7 @@ public:
     void Shutdown();
 
     // Fetch latest quote for a cryptocurrency
-    bool FetchLatestQuote(const std::string& symbol, std::function<void(const PriceData&)> callback);
+    bool FetchLatestQuote(const std::string& symbol, std::function<void(const PriceData&, bool isRealData)> callback);
 
     // Fetch historical data for a cryptocurrency (for charts)
     bool FetchHistoricalData(const std::string& symbol, std::function<void(const std::vector<PriceData>&)> callback);
@@ -63,6 +63,9 @@ private:
 
     // Helper method to make an API request
     bool MakeRequest(const std::string& endpoint, const std::map<std::string, std::string>& params, std::string& response);
+
+    // Generate mock price data as fallback
+    PriceData GenerateMockPriceData(const std::string& symbol);
 
     // Thread for handling API requests in the background
     std::unique_ptr<std::thread> m_requestThread;

@@ -1,7 +1,7 @@
-C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/imgui.dir
-C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/implot.dir
-C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/TradingPlatform.dir
-C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/edit_cache.dir
-C:/dev/vsrepos/trading-platform/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
-C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/json-build/CMakeFiles/edit_cache.dir
-C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/json-build/CMakeFiles/rebuild_cache.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/CMakeFiles/imgui.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/CMakeFiles/implot.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/CMakeFiles/TradingPlatform.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/json-build/CMakeFiles/edit_cache.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/json-build/CMakeFiles/rebuild_cache.dir

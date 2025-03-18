@@ -1,8 +1,8 @@
-# Install script for directory: C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-src/lib
+# Install script for directory: C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-src/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/dev/vsrepos/trading-platform/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,10 +33,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY OPTIONAL FILES "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/lib/libcurl-d_imp.lib")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE SHARED_LIBRARY FILES "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/lib/libcurl-d.dll")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/lib/libcurl-d.lib")
 endif()
 

@@ -1,4 +1,4 @@
-#line 1 "C:\\dev\\vsrepos\\trading-platform\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\libcurl.rc"
+#line 1 "C:\\Users\\colts\\Desktop\\desktop-trader\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\libcurl.rc"
 
 
 
@@ -440,7 +440,7 @@
 
 
 
-#line 1 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 1 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -590,11 +590,11 @@
 
 
 
-#line 151 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 151 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
-#line 155 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 155 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -624,29 +624,29 @@
 
 
 
-#line 185 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 185 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
-#line 188 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 188 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
-#line 190 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 190 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
 
 
-#line 196 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 196 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
-#line 200 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 200 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
 
 
 
-#line 207 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 207 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -658,7 +658,7 @@
 
 
 
-#line 219 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 219 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -668,7 +668,7 @@
 
 
 
-#line 229 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 229 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -1994,7 +1994,7 @@
 
 
 
-#line 1555 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 1555 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2025,7 +2025,7 @@
 
 
 
-#line 1586 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 1586 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2050,7 +2050,7 @@
 
 
 
-#line 1611 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 1611 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2063,7 +2063,7 @@
 
 
 
-#line 1624 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 1624 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2102,7 +2102,7 @@
 
 
 
-#line 1663 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 1663 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2214,7 +2214,7 @@
 
 
 
-#line 1775 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 1775 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2317,7 +2317,7 @@
 
 
 
-#line 1878 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 1878 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2486,7 +2486,7 @@
 
 
 
-#line 2047 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2047 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2588,7 +2588,7 @@
 
 
 
-#line 2149 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2149 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -2805,8 +2805,8 @@
 
 
 
-#line 2366 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
-#line 2367 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2366 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
+#line 2367 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -3034,7 +3034,7 @@
 
 
 
-#line 2595 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2595 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
     
     
     
@@ -3073,7 +3073,7 @@
     
     
 
-#line 2634 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2634 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -3307,7 +3307,7 @@
 
 
 
-#line 2868 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2868 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -3317,7 +3317,7 @@
 
 
 
-#line 2878 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2878 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -3325,24 +3325,24 @@
     
 
 
-#line 2886 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
-#line 2887 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2886 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
+#line 2887 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
 
 
 
-#line 2894 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
-#line 2895 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2894 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
+#line 2895 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
 
 
 
-#line 2902 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
-#line 2903 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2902 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
+#line 2903 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -3354,7 +3354,7 @@
 
 
 
-#line 2915 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2915 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -3388,7 +3388,7 @@
 
 
 
-#line 2949 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 2949 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 
 
 
@@ -3414,7 +3414,7 @@
 
 
 
-#line 1 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\concurrencysal.h"
+#line 1 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\concurrencysal.h"
 
 
 
@@ -3705,11 +3705,11 @@
 
 
 
-#line 292 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\concurrencysal.h"
+#line 292 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\concurrencysal.h"
 
 
 
-#line 296 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\concurrencysal.h"
+#line 296 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\concurrencysal.h"
 
 
 
@@ -3802,14 +3802,14 @@
 
 
 
-#line 389 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\concurrencysal.h"
+#line 389 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\concurrencysal.h"
 
 
 
 
 
-#line 395 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\concurrencysal.h"
-#line 2975 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\include\\sal.h"
+#line 395 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\concurrencysal.h"
+#line 2975 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\include\\sal.h"
 #line 62 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\shared\\SpecStrings.h"
 
 
@@ -5802,8 +5802,8 @@
 
 #line 257 "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\um\\winver.h"
 
-#line 25 "C:\\dev\\vsrepos\\trading-platform\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\libcurl.rc"
-#line 1 "C:\\dev\\vsrepos\\trading-platform\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\../include/curl/curlver.h"
+#line 25 "C:\\Users\\colts\\Desktop\\desktop-trader\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\libcurl.rc"
+#line 1 "C:\\Users\\colts\\Desktop\\desktop-trader\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\../include/curl/curlver.h"
 
 
 
@@ -5882,22 +5882,22 @@
 
 
 
-#line 80 "C:\\dev\\vsrepos\\trading-platform\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\../include/curl/curlver.h"
-#line 26 "C:\\dev\\vsrepos\\trading-platform\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\libcurl.rc"
+#line 80 "C:\\Users\\colts\\Desktop\\desktop-trader\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\../include/curl/curlver.h"
+#line 26 "C:\\Users\\colts\\Desktop\\desktop-trader\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\libcurl.rc"
 
 LANGUAGE  0, 0
 
 
 
 1 VERSIONINFO
-  FILEVERSION     8, 3, 0, 0
-  PRODUCTVERSION  8, 3, 0, 0
+  FILEVERSION     8, 4, 0, 0
+  PRODUCTVERSION  8, 4, 0, 0
   FILEFLAGSMASK   0x0000003FL
 
   FILEFLAGS 0x00000001L
 
 
-#line 40 "C:\\dev\\vsrepos\\trading-platform\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\libcurl.rc"
+#line 40 "C:\\Users\\colts\\Desktop\\desktop-trader\\out\\build\\x64-debug\\_deps\\curl-src\\lib\\libcurl.rc"
   FILEOS      0x00000004L
   FILETYPE    0x00000002L
   FILESUBTYPE 0L
@@ -5909,11 +5909,11 @@ BEGIN
     BEGIN
       VALUE "CompanyName",      "The curl library, https://curl.se/\0"
       VALUE "FileDescription",  "libcurl Shared Library\0"
-      VALUE "FileVersion",      "8.3.0-DEV" "\0"
+      VALUE "FileVersion",      "8.4.0" "\0"
       VALUE "InternalName",     "libcurl\0"
       VALUE "OriginalFilename", "libcurl.dll\0"
       VALUE "ProductName",      "The curl library\0"
-      VALUE "ProductVersion",   "8.3.0-DEV" "\0"
+      VALUE "ProductVersion",   "8.4.0" "\0"
       VALUE "LegalCopyright",   "Copyright (C) " "Daniel Stenberg, <daniel@haxx.se>." "\0"
       VALUE "License",          "https://curl.se/docs/copyright.html\0"
     END

@@ -60,22 +60,22 @@
 /* #undef CURL_DISABLE_AWS */
 
 /* disables DICT */
-/* #undef CURL_DISABLE_DICT */
+#define CURL_DISABLE_DICT 1
 
 /* disables DNS-over-HTTPS */
 /* #undef CURL_DISABLE_DOH */
 
 /* disables FILE */
-/* #undef CURL_DISABLE_FILE */
+#define CURL_DISABLE_FILE 1
 
 /* disables form api */
 /* #undef CURL_DISABLE_FORM_API */
 
 /* disables FTP */
-/* #undef CURL_DISABLE_FTP */
+#define CURL_DISABLE_FTP 1
 
 /* disables GOPHER */
-/* #undef CURL_DISABLE_GOPHER */
+#define CURL_DISABLE_GOPHER 1
 
 /* disables HSTS support */
 /* #undef CURL_DISABLE_HSTS */
@@ -84,13 +84,13 @@
 /* #undef CURL_DISABLE_HTTP */
 
 /* disables IMAP */
-/* #undef CURL_DISABLE_IMAP */
+#define CURL_DISABLE_IMAP 1
 
 /* disables LDAP */
-/* #undef CURL_DISABLE_LDAP */
+#define CURL_DISABLE_LDAP 1
 
 /* disables LDAPS */
-/* #undef CURL_DISABLE_LDAPS */
+#define CURL_DISABLE_LDAPS 1
 
 /* disables --libcurl option from the curl tool */
 /* #undef CURL_DISABLE_LIBCURL_OPTION */
@@ -99,7 +99,7 @@
 /* #undef CURL_DISABLE_MIME */
 
 /* disables MQTT */
-/* #undef CURL_DISABLE_MQTT */
+#define CURL_DISABLE_MQTT 1
 
 /* disables netrc parser */
 /* #undef CURL_DISABLE_NETRC */
@@ -111,7 +111,7 @@
 /* #undef CURL_DISABLE_PARSEDATE */
 
 /* disables POP3 */
-/* #undef CURL_DISABLE_POP3 */
+#define CURL_DISABLE_POP3 1
 
 /* disables built-in progress meter */
 /* #undef CURL_DISABLE_PROGRESS_METER */
@@ -120,22 +120,22 @@
 /* #undef CURL_DISABLE_PROXY */
 
 /* disables RTSP */
-/* #undef CURL_DISABLE_RTSP */
+#define CURL_DISABLE_RTSP 1
 
 /* disables SMB */
-/* #undef CURL_DISABLE_SMB */
+#define CURL_DISABLE_SMB 1
 
 /* disables SMTP */
-/* #undef CURL_DISABLE_SMTP */
+#define CURL_DISABLE_SMTP 1
 
 /* disables use of socketpair for curl_multi_poll */
 /* #undef CURL_DISABLE_SOCKETPAIR */
 
 /* disables TELNET */
-/* #undef CURL_DISABLE_TELNET */
+#define CURL_DISABLE_TELNET 1
 
 /* disables TFTP */
-/* #undef CURL_DISABLE_TFTP */
+#define CURL_DISABLE_TFTP 1
 
 /* disables verbose strings */
 /* #undef CURL_DISABLE_VERBOSE_STRINGS */
@@ -151,7 +151,7 @@
 #define USE_WIN32_CRYPTO 1
 
 /* Use Windows LDAP implementation */
-#define USE_WIN32_LDAP 1
+/* #undef USE_WIN32_LDAP */
 
 /* Define if you want to enable IPv6 support */
 #define ENABLE_IPV6 1
@@ -159,17 +159,20 @@
 /* Define to 1 if you have the alarm function. */
 /* #undef HAVE_ALARM */
 
+/* Define to 1 if you have the arc4random function. */
+/* #undef HAVE_ARC4RANDOM */
+
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 /* #undef HAVE_ARPA_INET_H */
-
-/* Define to 1 if you have the <arpa/tftp.h> header file. */
-/* #undef HAVE_ARPA_TFTP_H */
 
 /* Define to 1 if you have _Atomic support. */
 /* #undef HAVE_ATOMIC */
 
 /* Define to 1 if you have the `fchmod' function. */
 /* #undef HAVE_FCHMOD */
+
+/* Define to 1 if you have the `fnmatch' function. */
+/* #undef HAVE_FNMATCH */
 
 /* Define to 1 if you have the `basename' function. */
 /* #undef HAVE_BASENAME */
@@ -182,6 +185,10 @@
 
 /* Define to 1 if you have the clock_gettime function and monotonic timer. */
 /* #undef HAVE_CLOCK_GETTIME_MONOTONIC */
+
+/* Define to 1 if you have the clock_gettime function and raw monotonic timer.
+   */
+/* #undef HAVE_CLOCK_GETTIME_MONOTONIC_RAW */
 
 /* Define to 1 if you have the `closesocket' function. */
 #define HAVE_CLOSESOCKET 1
@@ -197,6 +204,12 @@
 
 /* Define to 1 if you have the freeaddrinfo function. */
 #define HAVE_FREEADDRINFO 1
+
+/* Define to 1 if you have the fseeko function. */
+/* #undef HAVE_FSEEKO */
+
+/* Define to 1 if you have the _fseeki64 function. */
+#define HAVE__FSEEKI64 1
 
 /* Define to 1 if you have the ftruncate function. */
 /* #undef HAVE_FTRUNCATE */
@@ -233,9 +246,6 @@
 
 /* Define to 1 if you have the `getpass_r' function. */
 /* #undef HAVE_GETPASS_R */
-
-/* Define to 1 if you have the `getppid' function. */
-/* #undef HAVE_GETPPID */
 
 /* Define to 1 if you have the `getpeername' function. */
 #define HAVE_GETPEERNAME 1
@@ -335,7 +345,7 @@
 /* #undef HAVE_LDAP_H */
 
 /* Use LDAPS implementation */
-#define HAVE_LDAP_SSL 1
+/* #undef HAVE_LDAP_SSL */
 
 /* Define to 1 if you have the ldap_ssl.h header file. */
 /* #undef HAVE_LDAP_SSL_H */
@@ -373,6 +383,9 @@
 /* Define to 1 if the compiler supports the 'long long' data type. */
 #define HAVE_LONGLONG 1
 
+/* Define to 1 if you have the 'suseconds_t' data type. */
+/* #undef HAVE_SUSECONDS_T */
+
 /* Define to 1 if you have the MSG_NOSIGNAL flag. */
 /* #undef HAVE_MSG_NOSIGNAL */
 
@@ -384,6 +397,9 @@
 
 /* Define to 1 if you have the <netinet/tcp.h> header file. */
 /* #undef HAVE_NETINET_TCP_H */
+
+/* Define to 1 if you have the <netinet/udp.h> header file. */
+/* #undef HAVE_NETINET_UDP_H */
 
 /* Define to 1 if you have the <linux/tcp.h> header file. */
 /* #undef HAVE_LINUX_TCP_H */
@@ -421,8 +437,14 @@
 /* Define to 1 if you have the select function. */
 #define HAVE_SELECT 1
 
+/* Define to 1 if you have the sched_yield function. */
+/* #undef HAVE_SCHED_YIELD */
+
 /* Define to 1 if you have the send function. */
 #define HAVE_SEND 1
+
+/* Define to 1 if you have the sendmsg function. */
+/* #undef HAVE_SENDMSG */
 
 /* Define to 1 if you have the 'fsetxattr' function. */
 /* #undef HAVE_FSETXATTR */
@@ -432,9 +454,6 @@
 
 /* fsetxattr() takes 6 args */
 /* #undef HAVE_FSETXATTR_6 */
-
-/* Define to 1 if you have the <setjmp.h> header file. */
-#define HAVE_SETJMP_H 1
 
 /* Define to 1 if you have the `setlocale' function. */
 #define HAVE_SETLOCALE 1
@@ -457,14 +476,11 @@
 /* Define to 1 if you have the signal function. */
 #define HAVE_SIGNAL 1
 
-/* Define to 1 if you have the <signal.h> header file. */
-#define HAVE_SIGNAL_H 1
-
 /* Define to 1 if you have the sigsetjmp function or macro. */
 /* #undef HAVE_SIGSETJMP */
 
 /* Define to 1 if you have the `snprintf' function. */
-#define HAVE_SNPRINTF
+#define HAVE_SNPRINTF 1
 
 /* Define to 1 if struct sockaddr_in6 has the sin6_scope_id member */
 #define HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID 1
@@ -484,9 +500,6 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
 
-/* Define to 1 if you have the <stdlib.h> header file. */
-#define HAVE_STDLIB_H 1
-
 /* Define to 1 if you have the strcasecmp function. */
 /* #undef HAVE_STRCASECMP */
 
@@ -505,9 +518,6 @@
 /* Define to 1 if you have the <strings.h> header file. */
 /* #undef HAVE_STRINGS_H */
 
-/* Define to 1 if you have the <string.h> header file. */
-#define HAVE_STRING_H 1
-
 /* Define to 1 if you have the <stropts.h> header file. */
 /* #undef HAVE_STROPTS_H */
 
@@ -517,6 +527,9 @@
 /* Define to 1 if you have the strtoll function. */
 #define HAVE_STRTOLL 1
 
+/* Define to 1 if you have the memrchr function. */
+/* #undef HAVE_MEMRCHR */
+
 /* if struct sockaddr_storage is defined */
 #define HAVE_STRUCT_SOCKADDR_STORAGE 1
 
@@ -525,6 +538,9 @@
 
 /* Define to 1 if you have the <sys/filio.h> header file. */
 /* #undef HAVE_SYS_FILIO_H */
+
+/* Define to 1 if you have the <sys/wait.h> header file. */
+/* #undef HAVE_SYS_WAIT_H */
 
 /* Define to 1 if you have the <sys/ioctl.h> header file. */
 /* #undef HAVE_SYS_IOCTL_H */
@@ -567,9 +583,6 @@
 
 /* Define to 1 if you have the <termio.h> header file. */
 /* #undef HAVE_TERMIO_H */
-
-/* Define to 1 if you have the <time.h> header file. */
-#define HAVE_TIME_H 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
 /* #undef HAVE_UNISTD_H */
@@ -658,6 +671,9 @@
 /* The size of `curl_off_t', as computed by sizeof. */
 #define SIZEOF_CURL_OFF_T 8
 
+/* The size of `curl_socket_t', as computed by sizeof. */
+/* #undef SIZEOF_CURL_SOCKET_T */
+
 /* The size of `size_t', as computed by sizeof. */
 #define SIZEOF_SIZE_T 8
 
@@ -666,9 +682,6 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
-
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
-/* #undef TIME_WITH_SYS_TIME */
 
 /* Define if you want to enable c-ares support */
 /* #undef USE_ARES */
@@ -735,16 +748,16 @@
 /* #undef USE_MSH3 */
 
 /* if Unix domain sockets are enabled  */
-#define USE_UNIX_SOCKETS
+#define USE_UNIX_SOCKETS 1
 
 /* Define to 1 if you are building a Windows target with large file support. */
 #define USE_WIN32_LARGE_FILES 1
 
 /* to enable SSPI support */
-/* #undef USE_WINDOWS_SSPI */
+#define USE_WINDOWS_SSPI 1
 
 /* to enable Windows SSL  */
-/* #undef USE_SCHANNEL */
+#define USE_SCHANNEL 1
 
 /* enable multiple SSL backends */
 /* #undef CURL_WITH_MULTI_SSL */
@@ -792,3 +805,12 @@
 
 /* Define to 1 to enable websocket support. */
 /* #undef USE_WEBSOCKETS */
+
+/* Define to 1 if OpenSSL has the SSL_CTX_set_srp_username function. */
+/* #undef HAVE_OPENSSL_SRP */
+
+/* Define to 1 if GnuTLS has the gnutls_srp_verifier function. */
+/* #undef HAVE_GNUTLS_SRP */
+
+/* Define to 1 to enable TLS-SRP support. */
+/* #undef USE_TLS_SRP */

@@ -1,0 +1,3 @@
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/zlib-subbuild/CMakeFiles/zlib-populate.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/zlib-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/zlib-subbuild/CMakeFiles/rebuild_cache.dir

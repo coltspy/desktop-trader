@@ -1,4 +1,4 @@
-# Install script for directory: C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/json-subbuild
+# Install script for directory: C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/json-subbuild
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/json-subbuild/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/json-subbuild/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -86,6 +86,7 @@ private:
         std::string selectedSymbol;
         bool isLoading = false;
         std::string errorMessage;
+        bool usingRealApiData = false; // Flag to indicate if we're using real API data
     } m_cryptoState;
 
     // Font pointers

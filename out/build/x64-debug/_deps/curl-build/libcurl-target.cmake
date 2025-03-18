@@ -7,7 +7,7 @@ if(CMAKE_VERSION VERSION_LESS "2.8.3")
    message(FATAL_ERROR "CMake >= 2.8.3 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.8.3...3.27)
+cmake_policy(VERSION 2.8.3...3.25)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -19,7 +19,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_cmake_targets_defined "")
 set(_cmake_targets_not_defined "")
 set(_cmake_expected_targets "")
-foreach(_cmake_expected_target IN ITEMS CURL::libcurl_shared)
+foreach(_cmake_expected_target IN ITEMS CURL::libcurl_static)
   list(APPEND _cmake_expected_targets "${_cmake_expected_target}")
   if(TARGET "${_cmake_expected_target}")
     list(APPEND _cmake_targets_defined "${_cmake_expected_target}")
@@ -46,18 +46,20 @@ unset(_cmake_targets_not_defined)
 unset(_cmake_expected_targets)
 
 
-# Create imported target CURL::libcurl_shared
-add_library(CURL::libcurl_shared SHARED IMPORTED)
+# Create imported target CURL::libcurl_static
+add_library(CURL::libcurl_static STATIC IMPORTED)
 
-set_target_properties(CURL::libcurl_shared PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-src/include"
+set_target_properties(CURL::libcurl_static PROPERTIES
+  INTERFACE_COMPILE_DEFINITIONS "CURL_STATICLIB"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-src/include"
+  INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:ws2_32>;\$<LINK_ONLY:advapi32>;\$<LINK_ONLY:crypt32>;\$<LINK_ONLY:bcrypt>"
 )
 
-# Import target "CURL::libcurl_shared" for configuration "Debug"
-set_property(TARGET CURL::libcurl_shared APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
-set_target_properties(CURL::libcurl_shared PROPERTIES
-  IMPORTED_IMPLIB_DEBUG "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/lib/libcurl-d_imp.lib"
-  IMPORTED_LOCATION_DEBUG "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/lib/libcurl-d.dll"
+# Import target "CURL::libcurl_static" for configuration "Debug"
+set_property(TARGET CURL::libcurl_static APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+set_target_properties(CURL::libcurl_static PROPERTIES
+  IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "C"
+  IMPORTED_LOCATION_DEBUG "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/lib/libcurl-d.lib"
   )
 
 # This file does not depend on other imported targets which have

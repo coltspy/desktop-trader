@@ -1,8 +1,8 @@
-# Install script for directory: C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-src
+# Install script for directory: C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/dev/vsrepos/trading-platform/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,31 +34,26 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/lib/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/src/cmake_install.cmake")
+  include("C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/lib/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE FILE PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE FILES "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/curl-config")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE FILE PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE FILES "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/curl-config")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/libcurl.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/libcurl.pc")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-src/include/curl" FILES_MATCHING REGEX "/[^/]*\\.h$")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-src/include/curl" FILES_MATCHING REGEX "/[^/]*\\.h$")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/CURL/CURLTargets.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/CURL/CURLTargets.cmake"
-         "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/CMakeFiles/Export/8e83d16133499b505bf3986f4f209a65/CURLTargets.cmake")
+         "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/CMakeFiles/Export/8e83d16133499b505bf3986f4f209a65/CURLTargets.cmake")
     if(_cmake_export_file_changed)
       file(GLOB _cmake_old_config_files "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/CURL/CURLTargets-*.cmake")
       if(_cmake_old_config_files)
@@ -71,16 +66,16 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
     unset(_cmake_export_file_changed)
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/CURL" TYPE FILE FILES "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/CMakeFiles/Export/8e83d16133499b505bf3986f4f209a65/CURLTargets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/CURL" TYPE FILE FILES "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/CMakeFiles/Export/8e83d16133499b505bf3986f4f209a65/CURLTargets.cmake")
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/CURL" TYPE FILE FILES "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/CMakeFiles/Export/8e83d16133499b505bf3986f4f209a65/CURLTargets-debug.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/CURL" TYPE FILE FILES "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/CMakeFiles/Export/8e83d16133499b505bf3986f4f209a65/CURLTargets-debug.cmake")
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/CURL" TYPE FILE FILES
-    "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/generated/CURLConfigVersion.cmake"
-    "C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/curl-build/generated/CURLConfig.cmake"
+    "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/generated/CURLConfigVersion.cmake"
+    "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/curl-build/generated/CURLConfig.cmake"
     )
 endif()
 

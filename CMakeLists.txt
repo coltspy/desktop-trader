@@ -15,7 +15,7 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/fonts DESTINATION ${CMAKE_CURRENT_BINARY_D
 # Include FetchContent for downloading dependencies
 include(FetchContent)
 
-# Download ImGui
+# Download ImGui (using docking branch)
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
@@ -95,6 +95,7 @@ set(HEADERS
     include/main.h
     include/CryptoAPIClient.h
     include/Config.h
+    include/SimpleHttpClient.h
 )
 
 # Create executable
@@ -111,6 +112,7 @@ target_link_libraries(TradingPlatform PRIVATE
     user32.lib
     gdi32.lib
     shell32.lib
+    winhttp.lib
 )
 
 # MSVC specific settings

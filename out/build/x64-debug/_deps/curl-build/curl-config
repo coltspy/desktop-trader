@@ -23,10 +23,10 @@
 #
 ###########################################################################
 
-prefix="C:/dev/vsrepos/trading-platform/out/install/x64-debug"
+prefix="C:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug"
 exec_prefix=${prefix}
 includedir=${prefix}/include
-cppflag_curl_staticlib=
+cppflag_curl_staticlib=-DCURL_STATICLIB
 
 usage()
 {
@@ -70,7 +70,7 @@ while test $# -gt 0; do
 
     case "$1" in
     --built-shared)
-        echo yes
+        echo no
         ;;
 
     --ca)
@@ -78,7 +78,7 @@ while test $# -gt 0; do
         ;;
 
     --cc)
-        echo "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.42.34433/bin/Hostx64/x64/cl.exe"
+        echo "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64/cl.exe"
         ;;
 
     --prefix)
@@ -86,19 +86,19 @@ while test $# -gt 0; do
         ;;
 
     --feature|--features)
-        for feature in IPv6 unixsockets AsynchDNS Largefile alt-svc HSTS NTLM threadsafe ""; do
+        for feature in SSL IPv6 unixsockets AsynchDNS Largefile SSPI alt-svc HSTS SPNEGO Kerberos NTLM HTTPS-proxy threadsafe ""; do
             test -n "$feature" && echo "$feature"
         done
         ;;
 
     --protocols)
-        for protocol in DICT FILE FTP GOPHER HTTP IMAP LDAP LDAPS MQTT POP3 RTSP SMB SMTP TELNET TFTP; do
+        for protocol in HTTP HTTPS; do
             echo "$protocol"
         done
         ;;
 
     --version)
-        echo libcurl 8.3.0-DEV
+        echo libcurl 8.4.0
         exit 0
         ;;
 
@@ -110,11 +110,11 @@ while test $# -gt 0; do
         # dash as that's used for things like version 1.2.3-CVS
         cpatch=`echo $checkfor | cut -d. -f3 | cut -d- -f1`
 
-        vmajor=`echo 8.3.0-DEV | cut -d. -f1`
-        vminor=`echo 8.3.0-DEV | cut -d. -f2`
+        vmajor=`echo 8.4.0 | cut -d. -f1`
+        vminor=`echo 8.4.0 | cut -d. -f2`
         # when extracting the patch part we strip off everything after a
         # dash as that's used for things like version 1.2.3-CVS
-        vpatch=`echo 8.3.0-DEV | cut -d. -f3 | cut -d- -f1`
+        vpatch=`echo 8.4.0 | cut -d. -f3 | cut -d- -f1`
 
         if test "$vmajor" -gt "$cmajor"; then
             exit 0;
@@ -130,12 +130,12 @@ while test $# -gt 0; do
             fi
         fi
 
-        echo "requested version $checkfor is newer than existing 8.3.0-DEV"
+        echo "requested version $checkfor is newer than existing 8.4.0"
         exit 1
         ;;
 
     --vernum)
-        echo 080300
+        echo 080400
         exit 0
         ;;
 
@@ -157,24 +157,24 @@ while test $# -gt 0; do
         ;;
 
     --libs)
-        if test "XC:/dev/vsrepos/trading-platform/out/install/x64-debug/lib" != "X/usr/lib" -a "XC:/dev/vsrepos/trading-platform/out/install/x64-debug/lib" != "X/usr/lib64"; then
-           CURLLIBDIR="-LC:/dev/vsrepos/trading-platform/out/install/x64-debug/lib "
+        if test "XC:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug/lib" != "X/usr/lib" -a "XC:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug/lib" != "X/usr/lib64"; then
+           CURLLIBDIR="-LC:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug/lib "
         else
            CURLLIBDIR=""
         fi
-        if test "Xyes" = "Xno"; then
-          echo ${CURLLIBDIR}-lcurl  -lws2_32 -lwldap32 -ladvapi32 -lcrypt32 -lbcrypt
+        if test "Xno" = "Xno"; then
+          echo ${CURLLIBDIR}-lcurl  -lws2_32 -ladvapi32 -lcrypt32 -lbcrypt
         else
           echo ${CURLLIBDIR}-lcurl
         fi
         ;;
     --ssl-backends)
-        echo ""
+        echo "Schannel"
         ;;
 
     --static-libs)
-        if test "Xno" != "Xno" ; then
-          echo "C:/dev/vsrepos/trading-platform/out/install/x64-debug/lib/libcurl.lib" /machine:x64  -lws2_32 -lwldap32 -ladvapi32 -lcrypt32 -lbcrypt
+        if test "Xyes" != "Xno" ; then
+          echo "C:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug/lib/libcurl.lib" /machine:x64  -lws2_32 -ladvapi32 -lcrypt32 -lbcrypt
         else
           echo "curl was built with static libraries disabled" >&2
           exit 1

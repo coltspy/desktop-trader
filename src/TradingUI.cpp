@@ -335,9 +335,12 @@ void TradingUI::UpdatePriceData() {
     m_cryptoState.errorMessage.clear();
 
     // Fetch the latest quote for the selected symbol
-    m_apiClient->FetchLatestQuote(m_cryptoState.selectedSymbol, [this](const PriceData& priceData) {
+    m_apiClient->FetchLatestQuote(m_cryptoState.selectedSymbol, [this](const PriceData& priceData, bool isRealData) {
         // Update the trading state with the new price
         m_tradingState.price = priceData.price;
+
+        // Update whether we're using real API data
+        m_cryptoState.usingRealApiData = isRealData;
 
         // Update the animation state
         m_animationState.targetPrice = priceData.price;
@@ -397,7 +400,18 @@ void TradingUI::RenderChartWindow() {
     ImGui::Text("Price Chart");
 
     // Display current price with animation
-    ImGui::SameLine(ImGui::GetWindowWidth() - 150);
+    ImGui::SameLine(ImGui::GetWindowWidth() - 250);
+
+    // API status indicator
+    if (m_cryptoState.usingRealApiData) {
+        ImGui::TextColored(ImVec4(0.0f, 0.9f, 0.0f, 1.0f), "LIVE");
+        ImGui::SameLine();
+    }
+    else {
+        ImGui::TextColored(ImVec4(0.9f, 0.4f, 0.0f, 1.0f), "MOCK");
+        ImGui::SameLine();
+    }
+
     ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "$%.2f", m_animationState.displayedPrice);
 
     ImGui::PopFont();

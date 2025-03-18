@@ -1,8 +1,8 @@
-# Install script for directory: C:/dev/vsrepos/trading-platform/out/build/x64-debug/_deps/json-src
+# Install script for directory: C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/json-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/dev/vsrepos/trading-platform/out/install/x64-debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
