@@ -3,9 +3,9 @@
 # No other meaning or use of this file is supported.
 
 method=git
-command=C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe;-P;C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/json-subbuild/json-populate-prefix/tmp/json-populate-gitclone.cmake
-source_dir=C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/json-src
-work_dir=C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps
+command=C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe;-P;C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/json-subbuild/json-populate-prefix/tmp/json-populate-gitclone.cmake
+source_dir=C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/json-src
+work_dir=C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps
 repository=https://github.com/nlohmann/json.git
 remote=origin
 init_submodules=TRUE

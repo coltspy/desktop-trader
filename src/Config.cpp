@@ -4,7 +4,7 @@ namespace Config {
     // API Settings
     namespace API {
         // Your CoinMarketCap API key (replace with your actual key in production)
-        const std::string CMC_API_KEY = "9d71734b-d6d6-44e0-8487-fbabf2c392d6   ";
+        const std::string CMC_API_KEY = "9d71734b-d6d6-44e0-8487-fbabf2c392d6";
 
         // Base URLs for different API endpoints
         const std::string CMC_BASE_URL = "https://pro-api.coinmarketcap.com";

@@ -8,6 +8,7 @@
 #include <random>
 #include <algorithm>
 #include <chrono>
+#include <unordered_map>
 
 // Implementation using WinHttp for real API calls
 CryptoAPIClient::CryptoAPIClient() : m_shouldStop(false) {
@@ -140,7 +141,36 @@ bool CryptoAPIClient::FetchLatestQuote(const std::string& symbol, std::function<
     return true;
 }
 
+// Cache for mock price data to ensure consistency
+static std::unordered_map<std::string, PriceData> mockPriceCache;
+
 PriceData CryptoAPIClient::GenerateMockPriceData(const std::string& symbol) {
+    // Check if we already have mock data for this symbol
+    if (mockPriceCache.count(symbol) > 0) {
+        // Update the timestamp
+        time_t now = time(nullptr);
+        char timeBuffer[30];
+        strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%dT%H:%M:%S.000Z", gmtime(&now));
+        mockPriceCache[symbol].lastUpdated = timeBuffer;
+
+        // Add a small random variance to the price (±0.5%) to simulate market movement
+        double variance = (rand() % 100 - 50) * 0.0001; // -0.5% to +0.5%
+        mockPriceCache[symbol].price *= (1.0 + variance);
+
+        // Update OHLC data
+        mockPriceCache[symbol].open = mockPriceCache[symbol].price;
+        mockPriceCache[symbol].high = mockPriceCache[symbol].price * 1.005;
+        mockPriceCache[symbol].low = mockPriceCache[symbol].price * 0.995;
+        mockPriceCache[symbol].close = mockPriceCache[symbol].price;
+
+        return mockPriceCache[symbol];
+    }
+
+    // Use a fixed seed based on the symbol to ensure consistency
+    std::hash<std::string> hasher;
+    size_t hash = hasher(symbol);
+    std::srand(static_cast<unsigned int>(hash));
+
     PriceData mockData;
     mockData.symbol = symbol;
 
@@ -189,14 +219,29 @@ PriceData CryptoAPIClient::GenerateMockPriceData(const std::string& symbol) {
     mockData.low = mockData.price * 0.995;
     mockData.close = mockData.price;
 
+    // Cache the mock data
+    mockPriceCache[symbol] = mockData;
+
     return mockData;
 }
 
+// Cache for historical data to ensure consistency
+static std::unordered_map<std::string, std::vector<PriceData>> historicalDataCache;
+
 bool CryptoAPIClient::FetchHistoricalData(const std::string& symbol, std::function<void(const std::vector<PriceData>&)> callback) {
+    // Check if we already have historical data for this symbol
+    if (historicalDataCache.count(symbol) > 0) {
+        callback(historicalDataCache[symbol]);
+        return true;
+    }
+
     // CoinMarketCap doesn't have a free historical data endpoint in their API
     // So we'll generate mock historical data for the chart
     std::vector<PriceData> historicalData;
     GenerateMockHistoricalData(symbol, historicalData);
+
+    // Cache the historical data
+    historicalDataCache[symbol] = historicalData;
 
     // Call the callback with the mock data
     callback(historicalData);
@@ -205,8 +250,10 @@ bool CryptoAPIClient::FetchHistoricalData(const std::string& symbol, std::functi
 }
 
 void CryptoAPIClient::GenerateMockHistoricalData(const std::string& symbol, std::vector<PriceData>& data, int numDays) {
-    // Seed for random generator
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    // Use a fixed seed based on the symbol to ensure consistency
+    std::hash<std::string> hasher;
+    size_t hash = hasher(symbol);
+    std::srand(static_cast<unsigned int>(hash));
 
     // Current time in seconds since epoch
     double now = static_cast<double>(std::time(nullptr));

@@ -1,4 +1,4 @@
 Name: nlohmann_json
 Description: JSON for Modern C++
 Version: 3.11.2
-Cflags: -IC:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug/include
+Cflags: -IC:/Users/hello/Desktop/desktop-trader/out/install/x64-debug/include

@@ -6,9 +6,23 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <ctime>
 
 // Forward declaration
 class CryptoAPIClient;
+
+// Structure to represent a trading position
+struct Position {
+    std::string symbol;
+    std::string type; // "Long" or "Short"
+    double entryPrice;
+    double amount;
+    double currentPrice;
+    double profitLoss;
+    double profitLossPercent;
+    std::string openTime;
+    bool isOpen;
+};
 
 class TradingUI {
 public:
@@ -47,6 +61,12 @@ private:
     // Helper function for updating amount from percentage buttons
     void UpdateAmountFromPercentage(float percentage);
 
+    // Helper function to execute trades
+    void ExecuteTrade(bool isBuy, const std::string& symbol, double price, double amount);
+
+    // Helper function to update positions with new prices
+    void UpdatePositions(const std::string& symbol, double currentPrice);
+
     // Menu state
     struct {
         bool showDemo = false;
@@ -60,7 +80,7 @@ private:
     // Trading panel state
     struct {
         bool buySelected = true;
-        int orderType = 0; // 0=Market, 1=Limit, 2=Stop, 3=Stop Limit
+        int orderType = 0; // 0=Market, 1=Limit
         float amount = 0.5f;
         float price = 1850.45f;
         float stopPrice = 1840.0f;
@@ -104,4 +124,7 @@ private:
     // DockSpace ID and state
     ImGuiID m_dockspaceId = 0;
     bool m_firstFrame = true;
+
+    // Vector to store positions
+    std::vector<Position> m_positions;
 };

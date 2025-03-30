@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/colts/Desktop/desktop-trader
+# Install script for directory: C:/Users/hello/Desktop/desktop-trader
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Users/colts/Desktop/desktop-trader/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/hello/Desktop/desktop-trader/out/install/x64-debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/json-build/cmake_install.cmake")
+  include("C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/json-build/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

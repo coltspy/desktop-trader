@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
+#include <ctime>
 
 extern ImFont* g_defaultFont;
 extern ImFont* g_boldFont;
@@ -168,7 +169,7 @@ void TradingUI::CreateDockingLayout() {
     // Create the layout
     ImGuiID dock_main_id = m_dockspaceId;
 
-    // Split right side for trading panel (40% width)
+    // Split right side for trading panel (30% width)
     ImGuiID dock_right_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.3f, nullptr, &dock_main_id);
 
     // Split remaining area for chart on top (70% height) and positions below (30% height)
@@ -334,8 +335,11 @@ void TradingUI::UpdatePriceData() {
     m_cryptoState.isLoading = true;
     m_cryptoState.errorMessage.clear();
 
+    // Create a local copy of the selected symbol
+    std::string currentSymbol = m_cryptoState.selectedSymbol;
+
     // Fetch the latest quote for the selected symbol
-    m_apiClient->FetchLatestQuote(m_cryptoState.selectedSymbol, [this](const PriceData& priceData, bool isRealData) {
+    m_apiClient->FetchLatestQuote(currentSymbol, [this, currentSymbol](const PriceData& priceData, bool isRealData) {
         // Update the trading state with the new price
         m_tradingState.price = priceData.price;
 
@@ -350,6 +354,24 @@ void TradingUI::UpdatePriceData() {
         std::stringstream ss;
         ss << std::fixed << std::setprecision(2) << priceData.price;
         strncpy(m_tradingState.priceBuf, ss.str().c_str(), IM_ARRAYSIZE(m_tradingState.priceBuf));
+
+        // Update positions with new price
+        for (size_t i = 0; i < m_positions.size(); i++) {
+            Position& position = m_positions[i];
+            if (position.symbol == currentSymbol && position.isOpen) {
+                position.currentPrice = priceData.price;
+                double priceChange = priceData.price - position.entryPrice;
+
+                if (position.type == "Long") {
+                    position.profitLoss = priceChange * position.amount;
+                }
+                else {
+                    position.profitLoss = -priceChange * position.amount;
+                }
+
+                position.profitLossPercent = (priceChange / position.entryPrice) * 100.0;
+            }
+        }
 
         // Clear loading state
         m_cryptoState.isLoading = false;
@@ -445,7 +467,7 @@ void TradingUI::RenderPositionsWindow() {
     ImGui::Spacing();
 
     // Create a table for positions
-    if (ImGui::BeginTable("PositionsTable", 6, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+    if (ImGui::BeginTable("PositionsTable", 7, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
         // Setup headers
         ImGui::TableSetupColumn("Symbol");
         ImGui::TableSetupColumn("Type");
@@ -453,58 +475,82 @@ void TradingUI::RenderPositionsWindow() {
         ImGui::TableSetupColumn("Amount");
         ImGui::TableSetupColumn("Current Price");
         ImGui::TableSetupColumn("P/L");
+        ImGui::TableSetupColumn("Actions");
         ImGui::TableHeadersRow();
 
-        // Sample position data
-        const float profitLoss = m_animationState.displayedPrice - 1795.23f;
-        const float plPercent = (profitLoss / 1795.23f) * 100.0f;
+        // Render each position
+        for (size_t i = 0; i < m_positions.size(); i++) {
+            if (!m_positions[i].isOpen) continue;
 
-        // Row 1
-        ImGui::TableNextRow();
+            const auto& position = m_positions[i];
+            ImGui::TableNextRow();
 
-        ImGui::TableNextColumn();
-        ImGui::Text("%s/USD", m_cryptoState.selectedSymbol.c_str());
+            ImGui::TableNextColumn();
+            ImGui::Text("%s/USD", position.symbol.c_str());
 
-        ImGui::TableNextColumn();
-        ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "Long");
+            ImGui::TableNextColumn();
+            if (position.type == "Long") {
+                ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "Long");
+            }
+            else {
+                ImGui::TextColored(ImVec4(0.9f, 0.3f, 0.3f, 1.0f), "Short");
+            }
 
-        ImGui::TableNextColumn();
-        ImGui::Text("$1,795.23");
+            ImGui::TableNextColumn();
+            ImGui::Text("$%.2f", position.entryPrice);
 
-        ImGui::TableNextColumn();
-        ImGui::Text("0.75 %s", m_cryptoState.selectedSymbol.c_str());
+            ImGui::TableNextColumn();
+            ImGui::Text("%.4f %s", position.amount, position.symbol.c_str());
 
-        ImGui::TableNextColumn();
-        ImGui::Text("$%.2f", m_animationState.displayedPrice);
+            ImGui::TableNextColumn();
+            ImGui::Text("$%.2f", position.currentPrice);
 
-        ImGui::TableNextColumn();
-        if (profitLoss >= 0) {
-            ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "+$%.2f (%.1f%%)", profitLoss * 0.75f, plPercent);
+            ImGui::TableNextColumn();
+            if (position.profitLoss >= 0) {
+                ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f),
+                    "+$%.2f (%.1f%%)",
+                    position.profitLoss,
+                    position.profitLossPercent);
+            }
+            else {
+                ImGui::TextColored(ImVec4(0.9f, 0.3f, 0.3f, 1.0f),
+                    "-$%.2f (%.1f%%)",
+                    -position.profitLoss,
+                    -position.profitLossPercent);
+            }
+
+            ImGui::TableNextColumn();
+            ImGui::PushID(static_cast<int>(i));
+            if (ImGui::Button("Close")) {
+                // Add profit/loss to balance
+                m_menuState.userBalance += position.profitLoss;
+
+                // Add the investment amount back to balance
+                if (position.type == "Long") {
+                    m_menuState.userBalance += position.amount * position.entryPrice;
+                }
+                else {
+                    // For shorts, you'd have different logic depending on your model
+                    m_menuState.userBalance += position.amount * position.entryPrice;
+                }
+
+                // Mark position as closed
+                m_positions[i].isOpen = false;
+            }
+            ImGui::PopID();
         }
-        else {
-            ImGui::TextColored(ImVec4(0.9f, 0.3f, 0.3f, 1.0f), "-$%.2f (%.1f%%)", -profitLoss * 0.75f, -plPercent);
+
+        // If no positions, show a message
+        if (m_positions.empty() || std::none_of(m_positions.begin(), m_positions.end(),
+            [](const Position& p) { return p.isOpen; })) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            // Use consecutive columns to simulate span
+            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "No open positions. Use the trading panel to open a position.");
+            for (int i = 0; i < 6; i++) {
+                ImGui::TableNextColumn();
+            }
         }
-
-        // Row 2 - another sample position
-        ImGui::TableNextRow();
-
-        ImGui::TableNextColumn();
-        ImGui::Text("BTC/USD");
-
-        ImGui::TableNextColumn();
-        ImGui::TextColored(ImVec4(0.9f, 0.3f, 0.3f, 1.0f), "Short");
-
-        ImGui::TableNextColumn();
-        ImGui::Text("$52,450.00");
-
-        ImGui::TableNextColumn();
-        ImGui::Text("0.05 BTC");
-
-        ImGui::TableNextColumn();
-        ImGui::Text("$52,150.75");
-
-        ImGui::TableNextColumn();
-        ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "+$14.96 (0.57%)");
 
         ImGui::EndTable();
     }
@@ -531,82 +577,20 @@ void TradingUI::RenderTradingWindow() {
     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.20f, 0.20f, 0.20f, 1.00f));
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.28f, 0.28f, 0.28f, 1.00f));
 
-    // Buy/Sell tabs as full-width buttons
-    ImVec2 windowSize = ImGui::GetContentRegionAvail();
-    float halfWidth = (windowSize.x - 16.0f) / 2.0f;
-
-    // Use bold font for buy/sell tabs
+    // Trading pair title
     ImGui::PushFont(m_boldFont);
-
-    // Display the current trading pair in the header
-    ImGui::Text("%s/USD", m_cryptoState.selectedSymbol.c_str());
-    ImGui::Spacing();
-
-    ImGui::PushStyleColor(ImGuiCol_Button, m_tradingState.buySelected ? ImVec4(0.15f, 0.15f, 0.15f, 1.0f) : ImVec4(0.15f, 0.15f, 0.15f, 0.5f));
-    if (ImGui::Button("Buy", ImVec2(halfWidth, 36))) {
-        m_tradingState.buySelected = true;
-    }
-
-    ImGui::SameLine();
-
-    ImGui::PushStyleColor(ImGuiCol_Button, !m_tradingState.buySelected ? ImVec4(0.7f, 0.2f, 0.2f, 1.0f) : ImVec4(0.15f, 0.15f, 0.15f, 0.5f));
-    if (ImGui::Button("Sell", ImVec2(halfWidth, 36))) {
-        m_tradingState.buySelected = false;
-    }
-    ImGui::PopStyleColor(2);
+    ImGui::Text("Trade %s/USD", m_cryptoState.selectedSymbol.c_str());
     ImGui::PopFont();
 
     ImGui::Spacing();
 
-    // Order type tabs as custom tabs
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 6.0f));
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(1.0f, 1.0f));
-
-    ImGui::PushFont(m_mediumFont);
-    const char* orderTypeLabels[] = { "Market", "Limit" };
-    for (int i = 0; i < 2; i++) {
-        bool isSelected = (m_tradingState.orderType == i);
-        ImGui::PushStyleColor(ImGuiCol_Button, isSelected ? ImVec4(0.8f, 0.2f, 0.2f, 1.0f) : ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, isSelected ? ImVec4(0.9f, 0.3f, 0.3f, 1.0f) : ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, isSelected ? ImVec4(0.8f, 0.2f, 0.2f, 1.0f) : ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_Text, isSelected ? ImVec4(1.0f, 1.0f, 1.0f, 1.0f) : ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
-
-        float tabWidth = i == 0 ? windowSize.x / 2.0f : windowSize.x / 2.0f;
-        if (ImGui::Button(orderTypeLabels[i], ImVec2(tabWidth, 0))) {
-            m_tradingState.orderType = i;
-        }
-        ImGui::PopStyleColor(4);
-
-        if (i < 1) ImGui::SameLine();
-    }
-    ImGui::PopFont();
-
-    ImGui::PopStyleVar(2);
-
-    // Info text on the right
-    ImGui::SameLine(ImGui::GetWindowWidth() - 130);
-    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "1 GIGA San");
-
-    ImGui::Spacing();
-    ImGui::Spacing();
-
-    // Amount input field
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 10.0f));
-    ImGui::PushFont(m_mediumFont);
-    ImGui::Text("AMOUNT");
-    ImGui::PopFont();
-
-    ImGui::SameLine(ImGui::GetWindowWidth() - 50);
-    ImGui::Text("0");
-    ImGui::SameLine(ImGui::GetWindowWidth() - 30);
-    ImGui::Text("%%");
-
+    // Amount input
+    ImGui::Text("Amount (%s)", m_cryptoState.selectedSymbol.c_str());
     ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.12f, 0.12f, 0.12f, 1.00f));
     ImGui::InputText("##AmountInput", m_tradingState.amountBuf, IM_ARRAYSIZE(m_tradingState.amountBuf));
     ImGui::PopStyleColor();
-    ImGui::PopStyleVar();
 
-    // Percentage buttons
+    // Percentage buttons in a single row
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4.0f, 4.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4.0f, 8.0f));
     float buttonWidth = (ImGui::GetContentRegionAvail().x - 12.0f) / 4.0f;
@@ -615,25 +599,25 @@ void TradingUI::RenderTradingWindow() {
     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
 
-    if (ImGui::Button("25 %", ImVec2(buttonWidth, 0))) {
+    if (ImGui::Button("25%", ImVec2(buttonWidth, 0))) {
         m_tradingState.amountPercent = 25.0f;
         UpdateAmountFromPercentage(0.25f);
     }
 
     ImGui::SameLine();
-    if (ImGui::Button("50 %", ImVec2(buttonWidth, 0))) {
+    if (ImGui::Button("50%", ImVec2(buttonWidth, 0))) {
         m_tradingState.amountPercent = 50.0f;
         UpdateAmountFromPercentage(0.5f);
     }
 
     ImGui::SameLine();
-    if (ImGui::Button("75 %", ImVec2(buttonWidth, 0))) {
+    if (ImGui::Button("75%", ImVec2(buttonWidth, 0))) {
         m_tradingState.amountPercent = 75.0f;
         UpdateAmountFromPercentage(0.75f);
     }
 
     ImGui::SameLine();
-    if (ImGui::Button("100 %", ImVec2(buttonWidth, 0))) {
+    if (ImGui::Button("100%", ImVec2(buttonWidth, 0))) {
         m_tradingState.amountPercent = 100.0f;
         UpdateAmountFromPercentage(1.0f);
     }
@@ -643,154 +627,58 @@ void TradingUI::RenderTradingWindow() {
     ImGui::PopStyleVar(2);
 
     ImGui::Spacing();
+
+    // Current price display
+    ImGui::Text("Current Price: $%.2f", m_animationState.displayedPrice);
+
     ImGui::Spacing();
 
-    // Gas section
-    ImGui::PushFont(m_smallFont);
-    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Gas -");
+    // Total cost
+    float amount = std::atof(m_tradingState.amountBuf);
+    float totalCost = amount * m_animationState.displayedPrice;
+    ImGui::Text("Total cost: $%.2f", totalCost);
+
+    ImGui::Spacing();
+
+    // Balance display
+    ImGui::Text("Available balance: $%.2f", m_menuState.userBalance);
+
+    ImGui::Spacing();
+
+    // Buy/Sell buttons side by side
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 12.0f));
+    ImGui::PushFont(m_boldFont);
+
+    // Buy button
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.5f, 0.0f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.6f, 0.0f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.7f, 0.0f, 1.0f));
+    if (ImGui::Button("BUY", ImVec2((ImGui::GetContentRegionAvail().x - 10.0f) / 2, 45))) {
+        // Execute buy
+        float amount = std::atof(m_tradingState.amountBuf);
+        if (amount > 0 && m_menuState.userBalance >= totalCost) {
+            ExecuteTrade(true, m_cryptoState.selectedSymbol, m_animationState.displayedPrice, amount);
+        }
+    }
+    ImGui::PopStyleColor(3);
+
     ImGui::SameLine();
 
-    // Gas settings (simplified)
-    ImGui::TextColored(ImVec4(0.9f, 0.9f, 0.9f, 1.0f), "0.002");
-    ImGui::SameLine(ImGui::GetWindowWidth() - 180);
-    ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "100%%");
-    ImGui::SameLine(ImGui::GetWindowWidth() - 100);
-    ImGui::TextColored(ImVec4(0.9f, 0.9f, 0.9f, 1.0f), "0.00100");
-    ImGui::PopFont();
-
-    ImGui::Spacing();
-    ImGui::Spacing();
-
-    // Main action button
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 12.0f));
-
-    ImGui::PushFont(m_boldFont);
-    if (m_tradingState.buySelected) {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.5f, 0.0f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.6f, 0.0f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.7f, 0.0f, 1.0f));
-        if (ImGui::Button("Buy", ImVec2(-1, 45))) {
-            // Handle buy order
+    // Sell button
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.3f, 0.3f, 1.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.9f, 0.4f, 0.4f, 1.0f));
+    if (ImGui::Button("SELL", ImVec2(ImGui::GetContentRegionAvail().x, 45))) {
+        // Execute sell
+        float amount = std::atof(m_tradingState.amountBuf);
+        if (amount > 0) {
+            ExecuteTrade(false, m_cryptoState.selectedSymbol, m_animationState.displayedPrice, amount);
         }
-        ImGui::PopStyleColor(3);
     }
-    else {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.3f, 0.3f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.9f, 0.4f, 0.4f, 1.0f));
-        if (ImGui::Button("Sell", ImVec2(-1, 45))) {
-            // Handle sell order
-        }
-        ImGui::PopStyleColor(3);
-    }
-    ImGui::PopFont();
+    ImGui::PopStyleColor(3);
 
+    ImGui::PopFont();
     ImGui::PopStyleVar();
-
-    ImGui::Spacing();
-
-    // Advanced section toggle
-    ImGui::PushFont(m_mediumFont);
-    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 0.4f, 1.0f));
-    bool advancedOpen = ImGui::CollapsingHeader("Advanced Sell", ImGuiTreeNodeFlags_DefaultOpen);
-    ImGui::PopStyleColor();
-    ImGui::PopFont();
-
-    if (advancedOpen) {
-        // Stats section
-        ImGui::PushFont(m_mediumFont);
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 0.4f, 1.0f));
-        if (ImGui::BeginTabBar("StatsTabBar", ImGuiTabBarFlags_None)) {
-            if (ImGui::BeginTabItem("Stats")) {
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("Checks")) {
-                ImGui::EndTabItem();
-            }
-            if (ImGui::BeginTabItem("My Position")) {
-                ImGui::EndTabItem();
-            }
-            ImGui::EndTabBar();
-        }
-        ImGui::PopStyleColor();
-        ImGui::PopFont();
-
-        // Time interval buttons
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4.0f, 4.0f));
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4.0f, 8.0f));
-        float intervalWidth = (ImGui::GetContentRegionAvail().x - 12.0f) / 4.0f;
-
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));
-
-        if (ImGui::Button("5M\n-20%", ImVec2(intervalWidth, 45))) {}
-
-        ImGui::PopStyleColor();
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 0.4f, 1.0f));
-
-        ImGui::SameLine();
-        if (ImGui::Button("1H\n+61%", ImVec2(intervalWidth, 45))) {}
-
-        ImGui::SameLine();
-        if (ImGui::Button("6H\n+61%", ImVec2(intervalWidth, 45))) {}
-
-        ImGui::SameLine();
-        if (ImGui::Button("24H\n+61%", ImVec2(intervalWidth, 45))) {}
-
-        ImGui::PopStyleColor(3);
-        ImGui::PopStyleVar(2);
-
-        ImGui::Spacing();
-        ImGui::Spacing();
-
-        // Trading metrics section
-        if (ImGui::BeginTable("MetricsTable", 3, ImGuiTableFlags_SizingFixedFit)) {
-            ImGui::TableNextRow();
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Txns");
-            ImGui::Text("809");
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Buys");
-            ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "542");
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Sells");
-            ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "267");
-
-            ImGui::TableNextRow();
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Volume");
-            ImGui::Text("$122.45K");
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Buy Vol");
-            ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "$60.82K");
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Sell Vol");
-            ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "$41.63K");
-
-            ImGui::TableNextRow();
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Makers");
-            ImGui::Text("557");
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Buyers");
-            ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.4f, 1.0f), "476");
-
-            ImGui::TableNextColumn();
-            ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "Sellers");
-            ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1.0f), "232");
-
-            ImGui::EndTable();
-        }
-    }
 
     ImGui::PopStyleVar(4); // Pop all remaining style variables
     ImGui::PopStyleColor(4); // Pop all remaining style colors
@@ -799,11 +687,68 @@ void TradingUI::RenderTradingWindow() {
 
 void TradingUI::UpdateAmountFromPercentage(float percentage) {
     float maxAmount = m_tradingState.buySelected ?
-        m_tradingState.availableQuote / m_animationState.displayedPrice :
+        m_menuState.userBalance / m_animationState.displayedPrice :
         m_tradingState.availableBase;
 
     m_tradingState.amount = maxAmount * percentage;
     std::stringstream ss;
     ss << std::fixed << std::setprecision(4) << m_tradingState.amount;
     strncpy(m_tradingState.amountBuf, ss.str().c_str(), IM_ARRAYSIZE(m_tradingState.amountBuf));
+}
+
+void TradingUI::ExecuteTrade(bool isBuy, const std::string& symbol, double price, double amount) {
+    // Check if user has enough balance for buy
+    if (isBuy && price * amount > m_menuState.userBalance) {
+        // Not enough balance
+        return;
+    }
+
+    // Create new position
+    Position newPosition;
+    newPosition.symbol = symbol;
+    newPosition.type = isBuy ? "Long" : "Short";
+    newPosition.entryPrice = price;
+    newPosition.amount = amount;
+    newPosition.currentPrice = price;
+    newPosition.profitLoss = 0.0;
+    newPosition.profitLossPercent = 0.0;
+    newPosition.isOpen = true;
+
+    // Get current time
+    time_t now = time(nullptr);
+    char timeBuffer[30];
+    strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%d %H:%M:%S", localtime(&now));
+    newPosition.openTime = timeBuffer;
+
+    // Update balance
+    if (isBuy) {
+        m_menuState.userBalance -= price * amount;
+    }
+    else {
+        // For short positions, we'd implement margin rules here
+        // For simplicity, we'll just use the same logic as buying
+        m_menuState.userBalance -= price * amount;
+    }
+
+    // Add to positions
+    m_positions.push_back(newPosition);
+}
+
+void TradingUI::UpdatePositions(const std::string& symbol, double currentPrice) {
+    for (size_t i = 0; i < m_positions.size(); i++) {
+        Position& position = m_positions[i];
+        if (position.symbol == symbol && position.isOpen) {
+            position.currentPrice = currentPrice;
+            double priceChange = currentPrice - position.entryPrice;
+
+            if (position.type == "Long") {
+                position.profitLoss = priceChange * position.amount;
+            }
+            else {
+                position.profitLoss = -priceChange * position.amount;
+            }
+
+            position.profitLossPercent = (priceChange / position.entryPrice) * 100.0;
+        }
+    }
 }
