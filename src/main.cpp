@@ -1,17 +1,19 @@
+// src/main.cpp (updated)
 #include <Windows.h>
 #include <memory>
 #include "App.h"
 #include "imgui_impl_win32.h"
 
-// Forward declare message handler from imgui_impl_win32.cpp
+// ImGui Win32 message handler
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-// Global application instance
+// Application instance
 std::unique_ptr<App> g_app;
 
-// Win32 message handler
+// Window message processor
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    // Let ImGui handle its messages first
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
         return true;
 
@@ -25,7 +27,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         }
         return 0;
     case WM_SYSCOMMAND:
-        if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+        if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT app menu
             return 0;
         break;
     case WM_DESTROY:
@@ -37,16 +39,16 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int main(int, char**)
 {
-    // Create application window
+    // Set up window class
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"TradingPlatform", nullptr };
     ::RegisterClassExW(&wc);
 
-    // Create fullscreen window
+    // Create main window maximized
     int screenWidth = GetSystemMetrics(SM_CXSCREEN);
     int screenHeight = GetSystemMetrics(SM_CYSCREEN);
     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Trading Platform", WS_OVERLAPPEDWINDOW, 0, 0, screenWidth, screenHeight, nullptr, nullptr, wc.hInstance, nullptr);
 
-    // Create application
+    // Initialize app
     g_app = std::make_unique<App>();
     if (!g_app->Initialize(hwnd))
     {
@@ -56,15 +58,15 @@ int main(int, char**)
         return 1;
     }
 
-    // Show the window maximized
+    // Display the window
     ::ShowWindow(hwnd, SW_SHOWMAXIMIZED);
     ::UpdateWindow(hwnd);
 
-    // Main loop
+    // Main application loop
     bool done = false;
     while (!done)
     {
-        // Poll and handle messages
+        // Process window messages
         MSG msg;
         while (::PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
         {
@@ -76,17 +78,14 @@ int main(int, char**)
         if (done)
             break;
 
-        // Run application frame
+        // Run app frame
         if (!g_app->Run())
-        {
             done = true;
-        }
     }
 
-    // Cleanup
+    // Clean up
     g_app->Shutdown();
     g_app.reset();
-
     ::DestroyWindow(hwnd);
     ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 

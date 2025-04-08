@@ -1,23 +1,22 @@
 #include "Config.h"
+#include <Windows.h>  // For OutputDebugStringA
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 namespace Config {
     // API Settings
     namespace API {
-        // Your CoinMarketCap API key (replace with your actual key in production)
-        const std::string CMC_API_KEY = "9d71734b-d6d6-44e0-8487-fbabf2c392d6";
+        // Make this a variable (not const) so it can be loaded from config
+        std::string CMC_API_KEY = "9d71734b-d6d6-44e0-8487-fbabf2c392d6";
 
-        // Base URLs for different API endpoints
+        // These remain constants
         const std::string CMC_BASE_URL = "https://pro-api.coinmarketcap.com";
-
-        // API request timeouts (in seconds)
         const int REQUEST_TIMEOUT = 10;
-
-        // API update intervals (in seconds)
         const float PRICE_UPDATE_INTERVAL = 15.0f;
         const float CHART_UPDATE_INTERVAL = 60.0f;
     }
 
-    // UI Settings
+    // UI Settings - Make sure these are all defined
     namespace UI {
         // Default theme
         const bool DEFAULT_DARK_THEME = true;
@@ -34,5 +33,32 @@ namespace Config {
     namespace App {
         const wchar_t* APP_TITLE = L"Crypto Trading Platform";
         const wchar_t* WINDOW_CLASS_NAME = L"CryptoTradingPlatform";
+    }
+
+    // Function to load configuration from file
+    void LoadConfig() {
+        try {
+            std::ifstream configFile("config.json");
+            if (configFile.is_open()) {
+                nlohmann::json config;
+                configFile >> config;
+
+                // Load API key if present
+                if (config.contains("api") && config["api"].contains("coinmarketcap_key")) {
+                    API::CMC_API_KEY = config["api"]["coinmarketcap_key"];
+                }
+
+                configFile.close();
+            }
+            else {
+                // Log warning about missing config
+                OutputDebugStringA("Warning: config.json not found, using defaults\n");
+            }
+        }
+        catch (const std::exception& e) {
+            // Log error
+            std::string error = "Error loading config: " + std::string(e.what()) + "\n";
+            OutputDebugStringA(error.c_str());
+        }
     }
 }

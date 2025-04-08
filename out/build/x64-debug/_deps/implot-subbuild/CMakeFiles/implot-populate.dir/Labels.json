@@ -2,37 +2,37 @@
 	"sources" : 
 	[
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/CMakeFiles/implot-populate"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/CMakeFiles/implot-populate"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/CMakeFiles/implot-populate.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/CMakeFiles/implot-populate.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/CMakeFiles/implot-populate-complete.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/CMakeFiles/implot-populate-complete.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-build.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-build.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-configure.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-configure.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-download.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-download.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-install.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-install.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-mkdir.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-mkdir.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-patch.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-patch.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-test.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-test.rule"
 		},
 		{
-			"file" : "C:/Users/hello/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-update.rule"
+			"file" : "C:/Users/colts/Desktop/desktop-trader/out/build/x64-debug/_deps/implot-subbuild/implot-populate-prefix/src/implot-populate-stamp/implot-populate-update.rule"
 		}
 	],
 	"target" : 

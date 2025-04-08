@@ -43,101 +43,82 @@ void CryptoAPIClient::Shutdown() {
     }
 }
 
-bool CryptoAPIClient::FetchLatestQuote(const std::string& symbol, std::function<void(const PriceData&, bool isRealData)> callback) {
-    // Enqueue the API request
-    std::function<void(const std::string&)> responseCallback = [callback, symbol, this](const std::string& response) {
-        try {
-            // If response is empty, use mock data
-            if (response.empty()) {
-                PriceData mockData = GenerateMockPriceData(symbol);
-                callback(mockData, false); // false indicates mock data
-                return;
-            }
+bool CryptoAPIClient::FetchLatestQuote(const std::string& symbol,
+    std::function<void(const PriceData&, bool)> callback) {
+    // Skip if no API key configured
+    if (m_apiKey.empty()) {
+        m_lastError = "API key not configured";
+        callback(GenerateMockPriceData(symbol), false);
+        return false;
+    }
 
-            // Parse JSON response
-            nlohmann::json json = nlohmann::json::parse(response);
+    // Set up endpoint and parameters
+    std::string endpoint = "/v1/cryptocurrency/quotes/latest";
+    std::map<std::string, std::string> params = {
+        {"symbol", symbol},
+        {"convert", "USD"}
+    };
 
-            // Handle API error response
-            if (json.contains("status") && json["status"].contains("error_code") && json["status"]["error_code"] != 0) {
-                m_lastError = "API Error: " + json["status"]["error_message"].get<std::string>();
-                std::cerr << m_lastError << std::endl;
+    // Queue the request with retry and timeout handling
+    std::lock_guard<std::mutex> lock(m_queueMutex);
+    m_requestQueue.push_back({
+        endpoint,
+        params,
+        [this, symbol, callback](const std::string& response) {
+            try {
+                // Parse JSON response
+                auto json = nlohmann::json::parse(response);
 
-                // Fallback to mock data
-                PriceData mockData = GenerateMockPriceData(symbol);
-                callback(mockData, false); // false indicates mock data
-                return;
-            }
+                // Error handling - check API errors
+                if (json.contains("status") && json["status"].contains("error_code") &&
+                    json["status"]["error_code"] != 0) {
 
-            // Parse the JSON response based on CoinMarketCap's API structure
-            if (json.contains("data") && json["data"].contains(symbol)) {
-                PriceData priceData;
-                priceData.symbol = symbol;
-
-                // Handle the data structure, which might be different than our simplified expectations
-                try {
-                    const auto& symbolData = json["data"][symbol];
-                    // Check if it's an array or object
-                    const auto& data = symbolData.is_array() ? symbolData[0] : symbolData;
-                    const auto& quote = data["quote"]["USD"];
-
-                    priceData.price = quote["price"].get<double>();
-                    priceData.volume24h = quote["volume_24h"].get<double>();
-
-                    // These fields might not exist in all API response tiers
-                    if (quote.contains("percent_change_1h"))
-                        priceData.percentChange1h = quote["percent_change_1h"].get<double>();
-                    if (quote.contains("percent_change_24h"))
-                        priceData.percentChange24h = quote["percent_change_24h"].get<double>();
-                    if (quote.contains("percent_change_7d"))
-                        priceData.percentChange7d = quote["percent_change_7d"].get<double>();
-                    if (quote.contains("market_cap"))
-                        priceData.marketCap = quote["market_cap"].get<double>();
-
-                    priceData.lastUpdated = quote["last_updated"].get<std::string>();
-
-                    // Copy price to other fields for chart consistency
-                    priceData.open = priceData.price;
-                    priceData.high = priceData.price;
-                    priceData.low = priceData.price;
-                    priceData.close = priceData.price;
-
-                    // Debug output to confirm API response
-                    std::cout << "Successfully parsed real API data for " << symbol << ": $"
-                        << priceData.price << std::endl;
-
-                    callback(priceData, true); // true indicates real API data
+                    m_lastError = "API Error: " + json["status"]["error_message"].get<std::string>();
+                    callback(GenerateMockPriceData(symbol), false);
                     return;
                 }
-                catch (const std::exception& e) {
-                    // Specific parsing errors in data structure, fallback to mock
-                    std::cerr << "Error parsing data structure: " << e.what() << std::endl;
+
+                // Extract price data
+                PriceData data;
+                data.symbol = symbol;
+
+                // Extract all the relevant fields, with error checking
+                if (json["data"].contains(symbol) &&
+                    json["data"][symbol].contains("quote") &&
+                    json["data"][symbol]["quote"].contains("USD")) {
+
+                    auto& usdData = json["data"][symbol]["quote"]["USD"];
+
+                    data.price = usdData.contains("price") ? usdData["price"].get<double>() : 0.0;
+                    data.volume24h = usdData.contains("volume_24h") ? usdData["volume_24h"].get<double>() : 0.0;
+                    data.percentChange1h = usdData.contains("percent_change_1h") ?
+                                         usdData["percent_change_1h"].get<double>() : 0.0;
+                    data.percentChange24h = usdData.contains("percent_change_24h") ?
+                                          usdData["percent_change_24h"].get<double>() : 0.0;
+                    data.lastUpdated = json["data"][symbol].contains("last_updated") ?
+                                     json["data"][symbol]["last_updated"].get<std::string>() : "";
+
+                    callback(data, true);
                 }
-            }
+ else {
+  m_lastError = "API response missing required data fields";
+  callback(GenerateMockPriceData(symbol), false);
+}
+}
+catch (const std::exception& e) {
+    m_lastError = "Error parsing response: " + std::string(e.what());
+    callback(GenerateMockPriceData(symbol), false);
+}
+}
+        });
 
-            // If we reach here, either data structure wasn't as expected or parsing failed
-            // Use mock data as fallback
-            PriceData mockData = GenerateMockPriceData(symbol);
-            callback(mockData, false); // false indicates mock data
-
-        }
-        catch (const std::exception& e) {
-            // Handle general parsing errors
-            std::cerr << "Error parsing API response: " << e.what() << std::endl;
-            m_lastError = std::string("Parsing error: ") + e.what();
-
-            // Fallback to mock data
-            PriceData mockData = GenerateMockPriceData(symbol);
-            callback(mockData, false); // false indicates mock data
-        }
-        };
-
-    // Enqueue the request
-    {
-        std::lock_guard<std::mutex> lock(m_queueMutex);
-        m_requestQueue.push_back({ "/v2/cryptocurrency/quotes/latest", {{"symbol", symbol}, {"convert", "USD"}}, responseCallback });
+    // Start processing thread if needed
+    if (!m_requestThread || !m_requestThread->joinable()) {
+        m_shouldStop = false;
+        m_requestThread = std::make_unique<std::thread>(&CryptoAPIClient::ProcessRequests, this);
     }
-    m_queueCondition.notify_one();
 
+    m_queueCondition.notify_one();
     return true;
 }
 
@@ -228,25 +209,169 @@ PriceData CryptoAPIClient::GenerateMockPriceData(const std::string& symbol) {
 // Cache for historical data to ensure consistency
 static std::unordered_map<std::string, std::vector<PriceData>> historicalDataCache;
 
-bool CryptoAPIClient::FetchHistoricalData(const std::string& symbol, std::function<void(const std::vector<PriceData>&)> callback) {
-    // Check if we already have historical data for this symbol
-    if (historicalDataCache.count(symbol) > 0) {
-        callback(historicalDataCache[symbol]);
+bool CryptoAPIClient::FetchHistoricalData(const std::string& symbol,
+    std::function<void(const std::vector<PriceData>&)> callback) {
+    if (m_apiKey.empty()) {
+        m_lastError = "API key not configured";
+        callback(std::vector<PriceData>());
+        return false;
+    }
+
+    // We'll use the listings/historical endpoint which is available in your API tier
+    std::string endpoint = "/v1/cryptocurrency/listings/historical";
+
+    // Create a vector to store historical data points
+    std::vector<PriceData> historicalData;
+
+    // We need to fetch multiple days to build chart data
+    // Let's get data for the last 30 days
+    time_t now = time(nullptr);
+
+    // Process one day at a time to build the chart data
+    auto processDayData = [this, &historicalData, symbol, callback, now](int daysAgo) {
+        // Calculate date
+        time_t dayTime = now - (daysAgo * 24 * 60 * 60);
+        char dateStr[11]; // YYYY-MM-DD
+        strftime(dateStr, sizeof(dateStr), "%Y-%m-%d", gmtime(&dayTime));
+
+        // Parameters for this specific day
+        std::map<std::string, std::string> params = {
+            {"date", dateStr},
+            {"limit", "5000"},  // High limit to ensure we get all cryptos
+            {"convert", "USD"}
+        };
+
+        // Make the API request for this day
+        std::string response;
+        if (!MakeRequest("/v1/cryptocurrency/listings/historical", params, response)) {
+            OutputDebugStringA(("Failed to get data for " + std::string(dateStr) + "\n").c_str());
+            return false;
+        }
+
+        try {
+            // Parse the response
+            auto json = nlohmann::json::parse(response);
+
+            // Check for API errors
+            if (json.contains("status") && json["status"].contains("error_code") &&
+                json["status"]["error_code"] != 0) {
+
+                m_lastError = "API Error: " + json["status"]["error_message"].get<std::string>();
+                OutputDebugStringA(m_lastError.c_str());
+                return false;
+            }
+
+            // Find the specific crypto in the data array
+            bool found = false;
+            if (json.contains("data") && json["data"].is_array()) {
+                for (const auto& crypto : json["data"]) {
+                    if (crypto.contains("symbol") && crypto["symbol"] == symbol) {
+                        // Found our cryptocurrency
+                        PriceData data;
+                        data.symbol = symbol;
+                        data.timestamp = dayTime;
+
+                        // Get price data
+                        if (crypto.contains("quote") && crypto["quote"].contains("USD")) {
+                            data.close = crypto["quote"]["USD"]["price"].get<double>();
+                            data.volume = crypto["quote"]["USD"]["volume_24h"].get<double>();
+
+                            // For OHLC, we only have close price, so approximate others
+                            double priceChange = crypto["quote"]["USD"]["percent_change_24h"].get<double>() / 100.0;
+                            data.open = data.close / (1.0 + priceChange);
+
+                            // Approximate high/low based on daily volatility
+                            double volatility = std::abs(priceChange) * 1.5;
+                            data.high = data.close * (1.0 + volatility / 2);
+                            data.low = data.close * (1.0 - volatility / 2);
+
+                            historicalData.push_back(data);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!found) {
+                OutputDebugStringA(("Symbol " + symbol + " not found for " + std::string(dateStr) + "\n").c_str());
+            }
+
+            return found;
+        }
+        catch (const std::exception& e) {
+            m_lastError = "Error parsing data for " + std::string(dateStr) + ": " + std::string(e.what());
+            OutputDebugStringA(m_lastError.c_str());
+            return false;
+        }
+        };
+
+    // Start with latest data using listings/latest for most accurate current price
+    std::map<std::string, std::string> latestParams = {
+        {"limit", "5000"},
+        {"convert", "USD"}
+    };
+
+    std::string latestResponse;
+    if (MakeRequest("/v1/cryptocurrency/listings/latest", latestParams, latestResponse)) {
+        try {
+            auto json = nlohmann::json::parse(latestResponse);
+
+            // Find the current price
+            if (json.contains("data") && json["data"].is_array()) {
+                for (const auto& crypto : json["data"]) {
+                    if (crypto.contains("symbol") && crypto["symbol"] == symbol) {
+                        PriceData data;
+                        data.symbol = symbol;
+                        data.timestamp = now;
+
+                        if (crypto.contains("quote") && crypto["quote"].contains("USD")) {
+                            data.close = crypto["quote"]["USD"]["price"].get<double>();
+                            data.volume = crypto["quote"]["USD"]["volume_24h"].get<double>();
+
+                            // For OHLC, we only have close price, so approximate others
+                            double priceChange = crypto["quote"]["USD"]["percent_change_24h"].get<double>() / 100.0;
+                            data.open = data.close / (1.0 + priceChange);
+
+                            // Approximate high/low based on daily volatility
+                            double volatility = std::abs(priceChange) * 1.5;
+                            data.high = data.close * (1.0 + volatility / 2);
+                            data.low = data.close * (1.0 - volatility / 2);
+
+                            historicalData.push_back(data);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        catch (const std::exception& e) {
+            OutputDebugStringA(("Error parsing latest data: " + std::string(e.what()) + "\n").c_str());
+        }
+    }
+
+    // Now get historical data for previous days
+    for (int day = 1; day <= 30; day++) {
+        processDayData(day);
+    }
+
+    // Sort by timestamp (oldest to newest)
+    std::sort(historicalData.begin(), historicalData.end(),
+        [](const PriceData& a, const PriceData& b) {
+            return a.timestamp < b.timestamp;
+        });
+
+    // Log what we found
+    OutputDebugStringA(("Retrieved " + std::to_string(historicalData.size()) +
+        " data points for " + symbol + "\n").c_str());
+
+    if (!historicalData.empty()) {
+        callback(historicalData);
         return true;
     }
 
-    // CoinMarketCap doesn't have a free historical data endpoint in their API
-    // So we'll generate mock historical data for the chart
-    std::vector<PriceData> historicalData;
-    GenerateMockHistoricalData(symbol, historicalData);
-
-    // Cache the historical data
-    historicalDataCache[symbol] = historicalData;
-
-    // Call the callback with the mock data
-    callback(historicalData);
-
-    return true;
+    callback(std::vector<PriceData>());
+    return false;
 }
 
 void CryptoAPIClient::GenerateMockHistoricalData(const std::string& symbol, std::vector<PriceData>& data, int numDays) {

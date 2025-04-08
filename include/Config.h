@@ -7,7 +7,7 @@ namespace Config {
     // API Settings
     namespace API {
         // Your CoinMarketCap API key (replace with your actual key in production)
-        extern const std::string CMC_API_KEY;
+        extern std::string CMC_API_KEY;
 
         // Base URLs for different API endpoints
         extern const std::string CMC_BASE_URL;
@@ -38,4 +38,7 @@ namespace Config {
         extern const wchar_t* APP_TITLE;
         extern const wchar_t* WINDOW_CLASS_NAME;
     }
+
+    void LoadConfig();
+
 }

@@ -3,6 +3,10 @@
 #include <random>
 #include <algorithm>
 #include <cmath>
+#include <sstream>
+#include <Windows.h>
+#include <iostream>
+
 
 ChartRenderer::ChartRenderer() {
     // Generate some sample data for initial display
@@ -61,6 +65,23 @@ void ChartRenderer::SetChartData(const std::vector<double>& timestamps,
     const std::vector<double>& lows,
     const std::vector<double>& closes,
     const std::vector<double>& volumes) {
+    // Log what we're receiving
+    std::string debugMsg = "ChartRenderer received " + std::to_string(timestamps.size()) + " data points\n";
+
+    if (!timestamps.empty()) {
+        // Convert timestamp to readable date for debugging
+        time_t firstTime = (time_t)timestamps.front();
+        time_t lastTime = (time_t)timestamps.back();
+        char firstTimeStr[64], lastTimeStr[64];
+        strftime(firstTimeStr, sizeof(firstTimeStr), "%Y-%m-%d", localtime(&firstTime));
+        strftime(lastTimeStr, sizeof(lastTimeStr), "%Y-%m-%d", localtime(&lastTime));
+
+        debugMsg += "First point: " + std::string(firstTimeStr) + " Close: " + std::to_string(closes.front()) + "\n";
+        debugMsg += "Last point: " + std::string(lastTimeStr) + " Close: " + std::to_string(closes.back()) + "\n";
+    }
+
+    OutputDebugStringA(debugMsg.c_str());
+
     // Copy the data to our member variables
     m_sampleTimestamps = timestamps;
     m_sampleOpens = opens;
@@ -68,6 +89,60 @@ void ChartRenderer::SetChartData(const std::vector<double>& timestamps,
     m_sampleLows = lows;
     m_sampleCloses = closes;
     m_sampleVolumes = volumes;
+}
+
+void ChartRenderer::RenderCandlestickChart() {
+    // Use the full available space
+    ImVec2 availableSize = ImGui::GetContentRegionAvail();
+
+    if (ImPlot::BeginPlot((m_symbol + "/USD").c_str(), availableSize)) {
+        // Setup axes
+        ImPlot::SetupAxes("Time", "Price", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
+        ImPlot::SetupAxisScale(ImAxis_X1, ImPlotScale_Time);
+        ImPlot::SetupAxisFormat(ImAxis_Y1, "$%.2f");
+
+        // Skip rendering if no data
+        if (m_sampleTimestamps.empty()) {
+            ImPlot::EndPlot();
+            return;
+        }
+
+        // Calculate min and max price for y-axis with proper padding
+        double min_price = *std::min_element(m_sampleLows.begin(), m_sampleLows.end());
+        double max_price = *std::max_element(m_sampleHighs.begin(), m_sampleHighs.end());
+        double price_range = max_price - min_price;
+        double padding = price_range * 0.1; // 10% padding
+
+        // Set axis limits
+        ImPlot::SetupAxisLimits(ImAxis_X1, m_sampleTimestamps.front(), m_sampleTimestamps.back());
+        ImPlot::SetupAxisLimits(ImAxis_Y1, min_price - padding, max_price + padding);
+
+        // Define colors for up/down candles
+        ImVec4 bullCol = ImVec4(0.0f, 0.8f, 0.4f, 1.0f);  // Green for up
+        ImVec4 bearCol = ImVec4(0.8f, 0.0f, 0.2f, 1.0f);  // Red for down
+
+        // Calculate width for candlesticks
+        double width = 0.6;
+        if (m_sampleTimestamps.size() > 1) {
+            width = 0.6 * (m_sampleTimestamps[1] - m_sampleTimestamps[0]);
+        }
+
+        // Draw candlesticks
+        for (size_t i = 0; i < m_sampleTimestamps.size(); ++i) {
+            DrawCandlestick(
+                m_sampleTimestamps[i],
+                m_sampleOpens[i],
+                m_sampleCloses[i],
+                m_sampleLows[i],
+                m_sampleHighs[i],
+                bullCol,
+                bearCol,
+                width
+            );
+        }
+
+        ImPlot::EndPlot();
+    }
 }
 
 void ChartRenderer::GenerateSampleData() {
@@ -190,73 +265,8 @@ void ChartRenderer::DrawCandlestick(double x, double open, double close, double 
     }
 }
 
-void ChartRenderer::RenderCandlestickChart() {
-    // Use the full available space
-    ImVec2 availableSize = ImGui::GetContentRegionAvail();
+// src/ChartRenderer.cpp - improved candlestick rendering
 
-    // Plot candlestick chart
-    if (ImPlot::BeginPlot((m_symbol + "/USD").c_str(), availableSize)) {
-        // Setup axes
-        ImPlot::SetupAxes("Time", "Price", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
-        ImPlot::SetupAxisScale(ImAxis_X1, ImPlotScale_Time);
-        ImPlot::SetupAxisLimits(ImAxis_X1, m_sampleTimestamps.front(), m_sampleTimestamps.back());
-
-        // Get min/max price for Y-axis limits
-        double min_price = *std::min_element(m_sampleLows.begin(), m_sampleLows.end());
-        double max_price = *std::max_element(m_sampleHighs.begin(), m_sampleHighs.end());
-        double price_range = max_price - min_price;
-        ImPlot::SetupAxisLimits(ImAxis_Y1, min_price - 0.2 * price_range, max_price + 0.2 * price_range);
-        ImPlot::SetupAxisFormat(ImAxis_Y1, "$%.2f");
-
-        // Define colors for up/down candles
-        ImVec4 bullCol = ImVec4(0.0f, 0.8f, 0.0f, 1.0f);  // Green for up
-        ImVec4 bearCol = ImVec4(0.8f, 0.0f, 0.0f, 1.0f);  // Red for down
-
-        // Calculate width for candlesticks (60% of the interval between points)
-        double width = 0.6;
-        if (m_sampleTimestamps.size() > 1) {
-            width = 0.6 * (m_sampleTimestamps[1] - m_sampleTimestamps[0]);
-        }
-
-        // Draw candlesticks manually
-        for (size_t i = 0; i < m_sampleTimestamps.size(); ++i) {
-            DrawCandlestick(
-                m_sampleTimestamps[i],
-                m_sampleOpens[i],
-                m_sampleCloses[i],
-                m_sampleLows[i],
-                m_sampleHighs[i],
-                bullCol,
-                bearCol,
-                width
-            );
-        }
-
-        // Plot a simple moving average
-        /*
-        if (m_sampleTimestamps.size() >= 20) {
-            std::vector<double> sma20(m_sampleTimestamps.size());
-            for (int i = 0; i < m_sampleTimestamps.size(); ++i) {
-                if (i < 19) {
-                    sma20[i] = 0; // Not enough data yet
-                }
-                else {
-                    double sum = 0;
-                    for (int j = i - 19; j <= i; ++j) {
-                        sum += m_sampleCloses[j];
-                    }
-                    sma20[i] = sum / 20.0;
-                }
-            }
-
-            ImPlot::SetNextLineStyle(ImVec4(1.0f, 1.0f, 0.0f, 0.8f), 2.0f);
-            ImPlot::PlotLine("20 SMA", m_sampleTimestamps.data(), sma20.data(), (int)sma20.size());
-        }
-        */
-
-        ImPlot::EndPlot();
-    }
-}
 
 void ChartRenderer::RenderLineChart() {
     // Use the full available space
@@ -266,38 +276,30 @@ void ChartRenderer::RenderLineChart() {
         // Setup axes
         ImPlot::SetupAxes("Time", "Price", ImPlotAxisFlags_AutoFit, ImPlotAxisFlags_AutoFit);
         ImPlot::SetupAxisScale(ImAxis_X1, ImPlotScale_Time);
-        ImPlot::SetupAxisLimits(ImAxis_X1, m_sampleTimestamps.front(), m_sampleTimestamps.back());
         ImPlot::SetupAxisFormat(ImAxis_Y1, "$%.2f");
 
-        // Get min/max price for Y-axis limits
+        // Skip rendering if no data
+        if (m_sampleTimestamps.empty()) {
+            ImPlot::EndPlot();
+            return;
+        }
+
+        // Calculate min and max price for y-axis
         double min_price = *std::min_element(m_sampleLows.begin(), m_sampleLows.end());
         double max_price = *std::max_element(m_sampleHighs.begin(), m_sampleHighs.end());
         double price_range = max_price - min_price;
-        ImPlot::SetupAxisLimits(ImAxis_Y1, min_price - 0.1 * price_range, max_price + 0.1 * price_range);
+        double padding = price_range * 0.1; // 10% padding
 
-        // Plot closing prices as a line series
+        // Set axis limits
+        ImPlot::SetupAxisLimits(ImAxis_X1, m_sampleTimestamps.front(), m_sampleTimestamps.back());
+        ImPlot::SetupAxisLimits(ImAxis_Y1, min_price - padding, max_price + padding);
+
+        // Draw simple line chart with closing prices
         ImPlot::SetNextLineStyle(ImVec4(0.0f, 0.8f, 1.0f, 1.0f), 2.0f);
-        ImPlot::PlotLine("Price", m_sampleTimestamps.data(), m_sampleCloses.data(), (int)m_sampleCloses.size());
-
-        // Plot a simple moving average
-        if (m_sampleTimestamps.size() >= 20) {
-            std::vector<double> sma20(m_sampleTimestamps.size());
-            for (int i = 0; i < m_sampleTimestamps.size(); ++i) {
-                if (i < 19) {
-                    sma20[i] = 0; // Not enough data yet
-                }
-                else {
-                    double sum = 0;
-                    for (int j = i - 19; j <= i; ++j) {
-                        sum += m_sampleCloses[j];
-                    }
-                    sma20[i] = sum / 20.0;
-                }
-            }
-
-            ImPlot::SetNextLineStyle(ImVec4(1.0f, 1.0f, 0.0f, 0.8f), 2.0f);
-            ImPlot::PlotLine("20 SMA", m_sampleTimestamps.data(), sma20.data(), (int)sma20.size());
-        }
+        ImPlot::PlotLine("Price",
+            m_sampleTimestamps.data(),
+            m_sampleCloses.data(),
+            (int)m_sampleCloses.size());
 
         ImPlot::EndPlot();
     }

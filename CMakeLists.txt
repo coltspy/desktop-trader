@@ -78,7 +78,7 @@ include_directories(
     ${json_SOURCE_DIR}/include
 )
 
-# Source files
+# Source files - Add new panel files here
 set(SOURCES
     src/main.cpp
     src/App.cpp
@@ -86,6 +86,9 @@ set(SOURCES
     src/ChartRenderer.cpp
     src/CryptoAPIClient.cpp
     src/Config.cpp
+    src/ChartPanel.cpp
+    src/PositionsPanel.cpp
+    src/TradingPanel.cpp
 )
 
 set(HEADERS
@@ -96,6 +99,9 @@ set(HEADERS
     include/CryptoAPIClient.h
     include/Config.h
     include/SimpleHttpClient.h
+    include/ChartPanel.h
+    include/PositionsPanel.h
+    include/TradingPanel.h
 )
 
 # Create executable

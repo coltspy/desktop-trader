@@ -21,6 +21,7 @@ App::~App() {
 
 bool App::Initialize(HWND hwnd) {
     m_hwnd = hwnd;
+    Config::LoadConfig();
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd)) {
